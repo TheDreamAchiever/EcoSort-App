@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoSort Pro — Smart Waste Segregation Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wet:#1e8c3a; --wet-2:#27ae60; --wet-light:#e8f8ee; --wet-glow:rgba(30,140,58,.15);
+  --dry:#c07800; --dry-light:#fff8e8; --dry-glow:rgba(192,120,0,.15);
+  --ew:#1756b8; --ew-light:#e8f0fe; --ew-glow:rgba(23,86,184,.15);
+  --haz:#c0392b; --haz-light:#fdecea;
+  --bg:#0f1a0f; --surface:#162116; --surface2:#1e2e1e; --glass:rgba(255,255,255,.04);
+  --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.14);
+  --text:#e8f0e8; --muted:#7a9478; --muted2:#5a7458;
+  --accent:#2ecc71; --accent2:#27ae60;
+  --gold:#f0c040; --radius:18px; --r2:12px;
+  --shadow:0 4px 30px rgba(0,0,0,.4); --shadow2:0 12px 60px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:3px}
+
+/* ── PARTICLES BG ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;opacity:0;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.4}90%{opacity:.1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(15,26,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem}
+.nav-logo{font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;color:var(--accent);display:flex;align-items:center;gap:.5rem;text-decoration:none;letter-spacing:-.01em}
+.nav-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(46,204,113,.5)}50%{box-shadow:0 0 0 6px rgba(46,204,113,0)}}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{padding:.4rem .9rem;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;color:var(--muted);background:none;transition:all .2s;display:flex;align-items:center;gap:.35rem}
+.nav-tab:hover,.nav-tab.active{background:var(--wet-light);color:var(--wet)}
+.nav-tab.active{background:rgba(46,204,113,.15);color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+.points-badge{background:rgba(240,192,64,.15);border:1px solid rgba(240,192,64,.3);color:var(--gold);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:100px;display:flex;align-items:center;gap:.3rem}
+.darkmode-btn{background:var(--glass);border:1px solid var(--border2);border-radius:8px;padding:.4rem .7rem;cursor:pointer;font-size:.85rem;color:var(--muted);transition:all .2s}
+.darkmode-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 1.5rem 4rem;z-index:1;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(30,140,58,.18) 0%,transparent 70%);pointer-events:none}
+.hero-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(46,204,113,.08);animation:spin linear infinite}
+.ring:nth-child(1){width:400px;height:400px;animation-duration:40s}
+.ring:nth-child(2){width:600px;height:600px;animation-duration:60s;animation-direction:reverse;border-color:rgba(46,204,113,.05)}
+.ring:nth-child(3){width:800px;height:800px;animation-duration:80s;border-color:rgba(46,204,113,.03)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.4rem 1rem;border-radius:100px;margin-bottom:2rem;animation:fadeUp .8s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.8rem,7vw,5rem);line-height:1.05;margin-bottom:1.2rem;animation:fadeUp .8s .1s ease both}
+.hero h1 .green{color:var(--accent)}
+.hero h1 .dim{opacity:.45}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:500px;margin:0 auto 2.5rem;animation:fadeUp .8s .2s ease both;font-weight:300}
+.hero-cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+.btn-hero{padding:.85rem 2rem;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.btn-hero-primary{background:var(--accent);color:#0f1a0f}
+.btn-hero-primary:hover{background:#27ae60;transform:translateY(-2px);box-shadow:0 8px 32px rgba(46,204,113,.4)}
+.btn-hero-ghost{background:var(--glass);border:1px solid var(--border2);color:var(--text)}
+.btn-hero-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:3.5rem;animation:fadeUp .8s .4s ease both}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--accent);display:block;line-height:1}
+.hero-stat-lab{font-size:.75rem;color:var(--muted);margin-top:.3rem;max-width:120px}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted2);font-size:.75rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── MAIN WRAPPER ── */
+main{position:relative;z-index:1;padding-top:1rem}
+.section{max-width:1100px;margin:0 auto;padding:5rem 1.5rem}
+.sec-head{margin-bottom:2.5rem}
+.sec-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;margin-bottom:.8rem}
+.sec-title{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;line-height:1.2;margin-bottom:.5rem}
+.sec-sub{color:var(--muted);font-size:.95rem;max-width:520px}
+
+/* ── SEARCH ── */
+.search-wrap{position:relative;max-width:600px;margin:0 auto 2rem}
+.search-input{width:100%;padding:1.1rem 1.2rem 1.1rem 3.5rem;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;color:var(--text);outline:none;transition:all .25s}
+.search-input::placeholder{color:var(--muted2)}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--wet-glow)}
+.search-icon{position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);font-size:1.1rem;pointer-events:none}
+.search-clear{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;display:none}
+.search-result-count{text-align:center;font-size:.82rem;color:var(--muted);margin-bottom:1rem}
+
+/* ── FILTER TABS ── */
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.filter-chip{padding:.5rem 1.1rem;border-radius:100px;border:1.5px solid var(--border2);background:var(--glass);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.35rem}
+.filter-chip:hover{border-color:var(--accent);color:var(--accent)}
+.filter-chip.on-wet{background:rgba(30,140,58,.12);border-color:var(--wet);color:#5de07a}
+.filter-chip.on-dry{background:rgba(192,120,0,.12);border-color:var(--dry);color:#ffd060}
+.filter-chip.on-ewaste{background:rgba(23,86,184,.12);border-color:var(--ew);color:#7aadff}
+.filter-chip.on-haz{background:rgba(192,57,43,.12);border-color:var(--haz);color:#ff8080}
+.filter-chip.on-all{background:rgba(46,204,113,.1);border-color:var(--accent);color:var(--accent)}
+.sort-select{margin-left:auto;background:var(--surface2);border:1.5px solid var(--border2);color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;padding:.45rem .9rem;border-radius:8px;cursor:pointer;outline:none}
+.sort-select:focus{border-color:var(--accent)}
+
+/* ── WASTE GRID ── */
+.waste-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+.wcard{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+.wcard::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+.wcard.wet::after{background:linear-gradient(90deg,var(--wet),var(--wet-2))}
+.wcard.dry::after{background:linear-gradient(90deg,var(--dry),#e6a010)}
+.wcard.ewaste::after{background:linear-gradient(90deg,var(--ew),#3b82f6)}
+.wcard.hazardous::after{background:linear-gradient(90deg,var(--haz),#e74c3c)}
+.wcard:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--border2)}
+.wcard.wet:hover{border-color:rgba(30,140,58,.4);box-shadow:0 12px 40px rgba(30,140,58,.2)}
+.wcard.dry:hover{border-color:rgba(192,120,0,.4);box-shadow:0 12px 40px rgba(192,120,0,.2)}
+.wcard.ewaste:hover{border-color:rgba(23,86,184,.4);box-shadow:0 12px 40px rgba(23,86,184,.2)}
+.wcard.hazardous:hover{border-color:rgba(192,57,43,.4);box-shadow:0 12px 40px rgba(192,57,43,.2)}
+.wcard-fav{position:absolute;top:.9rem;right:.9rem;background:none;border:none;cursor:pointer;font-size:1.1rem;opacity:.4;transition:all .2s}
+.wcard-fav:hover,.wcard-fav.active{opacity:1;transform:scale(1.2)}
+.wcard-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem}
+.wcard-icon{font-size:2.2rem;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+.wcard-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;line-height:1.2}
+.wcard-alias{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+.wcard-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .6rem;border-radius:100px;margin-bottom:.7rem}
+.wet .wcard-badge{background:var(--wet-light);color:var(--wet)}
+.dry .wcard-badge{background:var(--dry-light);color:var(--dry)}
+.ewaste .wcard-badge{background:var(--ew-light);color:var(--ew)}
+.hazardous .wcard-badge{background:var(--haz-light);color:var(--haz)}
+.wcard-disposal{font-size:.83rem;color:var(--muted);line-height:1.5;margin-bottom:.8rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.wcard-tip{font-size:.78rem;background:rgba(46,204,113,.06);border-left:2.5px solid var(--accent);padding:.5rem .7rem;border-radius:0 8px 8px 0;color:var(--muted);font-style:italic}
+.wet .wcard-tip{border-left-color:var(--wet)}
+.dry .wcard-tip{border-left-color:var(--dry)}
+.ewaste .wcard-tip{border-left-color:var(--ew)}
+.hazardous .wcard-tip{border-left-color:var(--haz);background:rgba(192,57,43,.06)}
+.wcard-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--border)}
+.wcard-detail-btn{font-size:.75rem;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.3rem;padding:0}
+.wcard-recyclable{font-size:.72rem;display:flex;align-items:center;gap:.25rem;color:var(--muted2)}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;z-index:900;background:rgba(5,12,5,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow2);animation:modalPop .25s ease}
+@keyframes modalPop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-hero{padding:2rem 2rem 1.5rem;position:relative;border-bottom:1px solid var(--border)}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:var(--glass);border:1px solid var(--border2);border-radius:8px;cursor:pointer;font-size:1rem;color:var(--muted);padding:.35rem .6rem;transition:all .2s}
+.modal-close:hover{color:var(--text);border-color:var(--border2)}
+.modal-icon-big{font-size:4rem;display:block;margin-bottom:.8rem;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))}
+.modal-name{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;line-height:1.1;margin-bottom:.5rem}
+.modal-body{padding:1.5rem 2rem 2rem}
+.modal-section{margin-bottom:1.4rem}
+.modal-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:.5rem}
+.modal-val{font-size:.92rem;color:var(--text);line-height:1.6}
+.modal-tip-box{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.18);border-radius:var(--r2);padding:.9rem 1rem;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.6}
+.modal-warn{background:rgba(240,192,64,.08);border:1px solid rgba(240,192,64,.25);border-radius:var(--r2);padding:.9rem 1rem;font-size:.85rem;color:var(--gold);display:flex;gap:.6rem;align-items:flex-start;line-height:1.5}
+.modal-danger{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:var(--r2);padding:.9rem 1rem;font-size:.85rem;color:#ff9090;display:flex;gap:.6rem;align-items:flex-start;line-height:1.5}
+.modal-impact{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top.8rem}
+.impact-pill{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:.7rem .9rem;text-align:center}
+.impact-num{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:var(--accent);display:block}
+.impact-lab{font-size:.72rem;color:var(--muted)}
+.modal-actions{display:flex;gap:.6rem;margin-top:1.5rem;flex-wrap:wrap}
+.mact-btn{flex:1;min-width:120px;padding:.7rem 1rem;border-radius:10px;border:1.5px solid var(--border2);background:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.mact-btn:hover{border-color:var(--accent);color:var(--accent)}
+.mact-btn.primary{background:var(--accent);border-color:var(--accent);color:#0f1a0f}
+.mact-btn.primary:hover{background:var(--accent2)}
+
+/* ── SCANNER ── */
+.scanner-box{background:var(--surface2);border:1px solid var(--border);border-radius:24px;padding:2.5rem;text-align:center;max-width:540px;margin:0 auto}
+.scanner-area{width:200px;height:200px;border-radius:20px;border:2px dashed var(--border2);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.7rem;font-size:.85rem;color:var(--muted);cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.scanner-area:hover{border-color:var(--accent)}
+.scanner-area.scanning::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);animation:scanline 1.5s linear infinite;box-shadow:0 0 8px var(--accent)}
+@keyframes scanline{from{top:0}to{top:100%}}
+.scanner-icon{font-size:2.5rem}
+#scannerInput{display:none}
+.scanner-result{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:1.2rem;margin-top:1.2rem;text-align:left;display:none}
+.scanner-result.show{display:block;animation:fadeUp .3s ease}
+
+/* ── TRACKER ── */
+.tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:2rem}
+.tracker-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;text-align:center;transition:border-color .2s}
+.tracker-card:hover{border-color:var(--border2)}
+.tracker-emoji{font-size:2rem;display:block;margin-bottom:.5rem}
+.tracker-label{font-size:.78rem;color:var(--muted);margin-bottom:.7rem}
+.tracker-count{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--accent);display:block;line-height:1}
+.tracker-controls{display:flex;gap:.4rem;justify-content:center;margin-top:.7rem}
+.tc-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);background:var(--glass);cursor:pointer;font-size:1rem;color:var(--muted);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.tc-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tracker-summary{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.ts-item{display:flex;flex-direction:column}
+.ts-num{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900}
+.ts-lab{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.co2-bar{height:8px;border-radius:100px;background:var(--border);margin-top:.6rem;overflow:hidden}
+.co2-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--wet-2));transition:width .6s ease}
+.tracker-reset{background:none;border:1px solid var(--border2);color:var(--muted);padding:.5rem 1.1rem;border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;margin-top:1rem;transition:all .2s}
+.tracker-reset:hover{border-color:var(--haz);color:var(--haz)}
+
+/* ── QUIZ ── */
+.quiz-container{max-width:700px;margin:0 auto}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.qprogress-bar{flex:1;height:6px;background:var(--border);border-radius:100px;margin:0 1rem;overflow:hidden}
+.qprogress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--wet-2));transition:width .4s ease}
+.q-score-badge{font-size:.82rem;font-weight:700;color:var(--gold);background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.2);padding:.3rem .8rem;border-radius:100px}
+.quiz-card{background:var(--surface2);border:1px solid var(--border2);border-radius:24px;padding:2rem;animation:fadeUp .3s ease}
+.q-cat-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:.25rem .7rem;border-radius:100px;margin-bottom:1rem;background:rgba(46,204,113,.1);color:var(--accent)}
+.q-text{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700;line-height:1.4;margin-bottom:1.5rem}
+.q-opts{display:grid;gap:.65rem}
+.q-opt{padding:1rem 1.2rem;border-radius:var(--r2);border:1.5px solid var(--border2);background:var(--glass);text-align:left;font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;color:var(--text);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.7rem}
+.q-opt:hover:not(:disabled){border-color:var(--accent);background:rgba(46,204,113,.07);color:var(--accent)}
+.q-opt.correct{border-color:var(--wet);background:rgba(30,140,58,.15);color:#5de07a}
+.q-opt.wrong{border-color:var(--haz);background:rgba(192,57,43,.12);color:#ff9090}
+.q-opt-num{width:28px;height:28px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;transition:inherit}
+.q-opt.correct .q-opt-num{background:var(--wet);color:#fff}
+.q-opt.wrong .q-opt-num{background:var(--haz);color:#fff}
+.q-feedback{margin-top:1rem;padding:1rem;border-radius:var(--r2);font-size:.88rem;display:none;line-height:1.6}
+.q-feedback.show{display:block;animation:fadeUp .2s ease}
+.q-feedback.ok{background:rgba(30,140,58,.12);border:1px solid rgba(30,140,58,.25);color:#7de08a}
+.q-feedback.fail{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.25);color:#ffaaaa}
+.q-nav{display:flex;justify-content:flex-end;margin-top:1.2rem}
+.btn-next{background:var(--accent);color:#0f1a0f;border:none;border-radius:10px;padding:.75rem 1.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;display:none;transition:all .2s}
+.btn-next:hover{background:var(--accent2);transform:translateX(2px)}
+.quiz-end{text-align:center;padding:3rem 2rem;animation:fadeUp .4s ease}
+.qe-icon{font-size:4rem;margin-bottom:1rem}
+.qe-score{font-family:'Fraunces',serif;font-size:4rem;font-weight:900;color:var(--accent);display:block;line-height:1}
+.qe-max{font-size:1.1rem;color:var(--muted);margin-top:.3rem}
+.qe-msg{font-size:1rem;margin:1.2rem 0 2rem;color:var(--muted)}
+.qe-badges{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.badge-pill{padding:.4rem .9rem;border-radius:100px;font-size:.78rem;font-weight:700;border:1px solid}
+.btn-restart{background:var(--accent);color:#0f1a0f;border:none;border-radius:12px;padding:.85rem 2rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-restart:hover{background:var(--accent2);transform:translateY(-2px)}
+
+/* ── STATS ── */
+.big-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2.5rem}
+.big-stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;position:relative;overflow:hidden}
+.big-stat::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(46,204,113,.1) 0%,transparent 70%)}
+.big-stat-num{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--accent);display:block;line-height:1.1}
+.big-stat-desc{font-size:.8rem;color:var(--muted);margin-top:.4rem;line-height:1.5}
+.big-stat-src{font-size:.68rem;color:var(--muted2);margin-top:.6rem}
+.problem-grid,.benefit-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+@media(max-width:640px){.problem-grid,.benefit-grid,.modal-impact{grid-template-columns:1fr}}
+.pb-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem}
+.pb-card h3{font-size:.95rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.pb-list{list-style:none}
+.pb-list li{font-size:.83rem;color:var(--muted);padding:.4rem 0;border-bottom:1px solid var(--border);display:flex;gap:.6rem;align-items:flex-start;line-height:1.5}
+.pb-list li:last-child{border:none}
+.pb-list li::before{content:'•';color:var(--accent);flex-shrink:0;margin-top:.05rem}
+.sources-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.sources-box h3{font-size:.9rem;font-weight:700;margin-bottom:1rem;color:var(--muted)}
+.sources-list{list-style:none}
+.sources-list li{font-size:.8rem;color:var(--muted2);padding:.35rem 0;border-bottom:1px solid var(--border);display:flex;gap:.5rem}
+.sources-list li:last-child{border:none}
+.sources-list li::before{content:'📄';flex-shrink:0}
+
+/* ── TIPS ── */
+.tip-hero{background:linear-gradient(135deg,rgba(30,140,58,.2) 0%,rgba(23,86,184,.1) 100%);border:1px solid rgba(46,204,113,.15);border-radius:24px;padding:2rem 2.5rem;display:flex;gap:2rem;align-items:center;margin-bottom:2rem}
+@media(max-width:560px){.tip-hero{flex-direction:column;text-align:center;padding:1.5rem}}
+.tip-hero-icon{font-size:3.5rem;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(46,204,113,.3))}
+.tip-hero-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.tip-hero-text{font-size:1.05rem;font-weight:300;color:var(--text);line-height:1.6}
+.tip-hero-btn{margin-top:.9rem;padding:.55rem 1.1rem;border-radius:8px;background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.3);color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
+.tip-hero-btn:hover{background:rgba(46,204,113,.25)}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+.tip-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;transition:border-color .2s,transform .2s}
+.tip-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.tip-card-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.75rem}
+.tip-card-icon{font-size:1.8rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+.tip-card-title{font-weight:700;font-size:.92rem}
+.tip-card-cat{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted2);margin-top:.1rem}
+.tip-card-text{font-size:.82rem;color:var(--muted);line-height:1.6}
+.tip-like{background:none;border:none;cursor:pointer;font-size:.8rem;color:var(--muted2);margin-top:.8rem;transition:color .2s}
+.tip-like:hover,.tip-like.liked{color:#ff6b6b}
+.tip-like.liked::before{content:'❤️ '}
+
+/* ── LEADERBOARD / GAMIFICATION ── */
+.xp-bar-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem}
+.xp-avatar{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--wet-2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+.xp-level{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:.6rem}
+.xp-bar-outer{flex:1;height:8px;background:var(--border);border-radius:100px;overflow:hidden;margin-top:.5rem}
+.xp-bar-inner{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--wet-2));transition:width .8s ease}
+.xp-text{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+.badges-grid{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:2rem}
+.badge-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:.8rem 1.1rem;display:flex;align-items:center;gap:.6rem;font-size:.82rem;transition:border-color .2s}
+.badge-item:hover{border-color:var(--border2)}
+.badge-item.earned{border-color:rgba(240,192,64,.5);background:linear-gradient(135deg,rgba(240,192,64,.1),rgba(46,204,113,.06));box-shadow:0 0 12px rgba(240,192,64,.2),inset 0 0 20px rgba(240,192,64,.04);animation:badgeGlow 2.5s ease-in-out infinite}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 10px rgba(240,192,64,.2),inset 0 0 20px rgba(240,192,64,.04)}50%{box-shadow:0 0 22px rgba(240,192,64,.45),0 0 40px rgba(240,192,64,.12),inset 0 0 20px rgba(240,192,64,.08)}}
+.badge-item.earned .badge-icon{filter:drop-shadow(0 0 6px rgba(240,192,64,.6));animation:iconPop 2.5s ease-in-out infinite}
+@keyframes iconPop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.badge-icon{font-size:1.5rem}
+.badge-info-name{font-weight:700;font-size:.82rem}
+.badge-info-desc{font-size:.72rem;color:var(--muted)}
+.badge-item:not(.earned){opacity:.38;filter:grayscale(1)}
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem;margin-bottom:2rem}
+.challenge-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem}
+.chall-title{font-weight:700;font-size:.88rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.chall-desc{font-size:.78rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5}
+.chall-bar{height:6px;background:var(--border);border-radius:100px;overflow:hidden}
+.chall-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--wet-2))}
+.chall-meta{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted2);margin-top:.4rem}
+
+/* ── COMPARE ── */
+.compare-box{background:var(--surface2);border:1px solid var(--border);border-radius:24px;padding:2rem;max-width:700px;margin:0 auto}
+.compare-selects{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1.5rem}
+.comp-select{background:var(--surface);border:1.5px solid var(--border2);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;padding:.7rem 1rem;border-radius:var(--r2);outline:none;width:100%;cursor:pointer}
+.comp-select:focus{border-color:var(--accent)}
+.comp-vs{font-family:'Fraunces',serif;font-weight:900;font-size:1.1rem;color:var(--muted2);text-align:center}
+.compare-result{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.comp-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.2rem}
+.comp-panel h4{font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.comp-row{font-size:.82rem;color:var(--muted);margin-bottom:.6rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);line-height:1.5}
+.comp-row:last-child{border:none;margin:0;padding:0}
+.comp-row strong{color:var(--text);display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem;color:var(--muted2)}
+@media(max-width:560px){.compare-selects{grid-template-columns:1fr;}.comp-vs{display:none}.compare-result{grid-template-columns:1fr}}
+
+/* ── GLOSSARY ── */
+.glossary-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.8rem}
+.gloss-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem}
+.gloss-term{font-weight:700;font-size:.92rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.gloss-def{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* ── DARK LIGHT SWITCH ── */
+body.light{
+  --bg:#f0f4ef;--surface:#fff;--surface2:#f5f7f4;--glass:rgba(0,0,0,.03);
+  --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.14);
+  --text:#1a2a18;--muted:#5a7058;--muted2:#8aaa88;
+}
+body.light nav{background:rgba(240,244,239,.92)}
+body.light .modal{background:#fff}
+body.light .modal-hero{border-color:rgba(0,0,0,.08)}
+body.light .q-opt{background:rgba(0,0,0,.02)}
+
+/* ── UTILS ── */
+.empty{text-align:center;padding:4rem 1rem;color:var(--muted);grid-column:1/-1}
+.empty-icon{font-size:3rem;display:block;margin-bottom:.8rem}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.gap-1{gap:.5rem}.mt-1{margin-top:1rem}.mb-1{margin-bottom:1rem}
+.divider{height:1px;background:var(--border);margin:3rem 0}
+.pill{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .nav-tabs{display:none}
+  .hero h1{font-size:2.5rem}
+  .hero-stats{gap:1.5rem}
+  .waste-grid{grid-template-columns:1fr}
+  .tips-grid{grid-template-columns:1fr}
+  .tracker-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLE BG -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <span class="nav-logo-dot"></span> EcoSort <span style="opacity:.4;font-weight:300">Pro</span>
+  </a>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="gotoSection('search')">🔍 Search</button>
+    <button class="nav-tab" onclick="gotoSection('tracker')">📊 Tracker</button>
+    <button class="nav-tab" onclick="gotoSection('quiz')">🧠 Quiz</button>
+    <button class="nav-tab" onclick="gotoSection('tips')">💡 Tips</button>
+    <button class="nav-tab" onclick="gotoSection('stats')">🌍 Facts</button>
+    <button class="nav-tab" onclick="gotoSection('compare')">⚖️ Compare</button>
+    <button class="nav-tab" onclick="gotoSection('achievements')">🏆 Awards</button>
+    <button class="nav-tab" onclick="gotoSection('glossary')">📚 Glossary</button>
+  </div>
+  <div class="nav-right">
+    <div class="points-badge">⭐ <span id="navPoints">0</span> XP</div>
+    <button class="darkmode-btn" onclick="toggleTheme()">🌓</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+  </div>
+  <div class="hero-badge">🌱 CA1 Project · Environmental Awareness App</div>
+  <h1>
+    Segregate Smart.<br>
+    <span class="green">Protect</span> Our<br>
+    <span class="dim">Planet.</span>
+  </h1>
+  <p class="hero-sub">India's most comprehensive waste guide — search 40+ items, track your waste, earn eco-badges, and test your knowledge.</p>
+  <div class="hero-cta-row">
+    <button class="btn-hero btn-hero-primary" onclick="gotoSection('search')">🔍 Search Waste Items</button>
+    <button class="btn-hero btn-hero-ghost" onclick="gotoSection('quiz')">🧠 Take the Quiz</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">62M</span><div class="hero-stat-lab">Tonnes waste/year in India</div></div>
+    <div class="hero-stat"><span class="hero-stat-num">40+</span><div class="hero-stat-lab">Waste items classified</div></div>
+    <div class="hero-stat"><span class="hero-stat-num">4</span><div class="hero-stat-lab">Categories with disposal guides</div></div>
+    <div class="hero-stat"><span class="hero-stat-num">15</span><div class="hero-stat-lab">Eco-challenges & badges</div></div>
+  </div>
+  <div class="hero-scroll">↓ scroll to explore</div>
+</section>
+
+<main>
+
+<!-- SEARCH SECTION -->
+<div id="search" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">🔍 Waste Classifier</div>
+    <h2 class="sec-title">What are you disposing?</h2>
+    <p class="sec-sub">Search any item or filter by category. Click a card for full disposal guide.</p>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔎</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="e.g. battery, plastic bottle, banana peel, newspaper…" oninput="handleSearch()" />
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+  <div class="search-result-count" id="resultCount"></div>
+
+  <div class="filter-row">
+    <button class="filter-chip on-all" data-cat="all" onclick="setCat('all',this)">🌀 All</button>
+    <button class="filter-chip" data-cat="wet" onclick="setCat('wet',this)">💧 Wet Waste</button>
+    <button class="filter-chip" data-cat="dry" onclick="setCat('dry',this)">📦 Dry Waste</button>
+    <button class="filter-chip" data-cat="ewaste" onclick="setCat('ewaste',this)">⚡ E-Waste</button>
+    <button class="filter-chip" data-cat="hazardous" onclick="setCat('hazardous',this)">☣️ Hazardous</button>
+    <button class="filter-chip" data-cat="fav" onclick="setCat('fav',this)">❤️ Favourites</button>
+    <select class="sort-select" id="sortSelect" onchange="renderCards()">
+      <option value="name">Sort: A–Z</option>
+      <option value="cat">Sort: Category</option>
+      <option value="recyclable">Sort: Recyclable First</option>
+    </select>
+  </div>
+
+  <div class="waste-grid" id="wasteGrid"></div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- TRACKER -->
+<div id="tracker" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">📊 Waste Tracker</div>
+    <h2 class="sec-title">Track Your Waste Today</h2>
+    <p class="sec-sub">Log how many items you dispose correctly. See your environmental impact in real-time.</p>
+  </div>
+  <div class="tracker-grid" id="trackerGrid"></div>
+  <div class="tracker-summary" id="trackerSummary"></div>
+  <button class="tracker-reset" onclick="resetTracker()">🔄 Reset Today's Log</button>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- QUIZ -->
+<div id="quiz" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">🧠 Awareness Quiz</div>
+    <h2 class="sec-title">Test Your Eco Knowledge</h2>
+    <p class="sec-sub">15 questions across categories. Earn XP for correct answers!</p>
+  </div>
+  <div class="quiz-container"><div id="quizBox"></div></div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- TIPS -->
+<div id="tips" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">💡 Eco Tips</div>
+    <h2 class="sec-title">Daily Habits for a Greener Life</h2>
+    <p class="sec-sub">Small changes, big impact. New tip highlights daily.</p>
+  </div>
+  <div class="tip-hero" id="tipHero"></div>
+  <div class="tips-grid" id="tipsGrid"></div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- STATS -->
+<div id="stats" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">🌍 Real Data</div>
+    <h2 class="sec-title">India & Global Waste Facts</h2>
+    <p class="sec-sub">Verified statistics from government and international sources.</p>
+  </div>
+  <div class="big-stat-grid" id="statGrid"></div>
+  <div class="problem-grid">
+    <div class="pb-card">
+      <h3>⚠️ Problems of Improper Segregation</h3>
+      <ul class="pb-list" id="problemList"></ul>
+    </div>
+    <div class="pb-card">
+      <h3>✅ Benefits of Proper Management</h3>
+      <ul class="pb-list" id="benefitList"></ul>
+    </div>
+  </div>
+  <div class="sources-box">
+    <h3>📚 Bibliography & Sources</h3>
+    <ul class="sources-list" id="sourcesList"></ul>
+  </div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- COMPARE -->
+<div id="compare" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">⚖️ Compare Items</div>
+    <h2 class="sec-title">Compare Two Waste Items</h2>
+    <p class="sec-sub">Select any two waste items to see a side-by-side comparison of their disposal methods.</p>
+  </div>
+  <div class="compare-box">
+    <div class="compare-selects">
+      <select class="comp-select" id="compA" onchange="renderCompare()"></select>
+      <div class="comp-vs">VS</div>
+      <select class="comp-select" id="compB" onchange="renderCompare()"></select>
+    </div>
+    <div class="compare-result" id="compareResult"></div>
+  </div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- ACHIEVEMENTS -->
+<div id="achievements" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">🏆 Gamification</div>
+    <h2 class="sec-title">Badges & Challenges</h2>
+    <p class="sec-sub">Earn XP by using the app, completing quizzes and daily challenges.</p>
+  </div>
+  <div class="xp-bar-wrap" id="xpBar"></div>
+  <h3 style="font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.08em">🏅 Your Badges</h3>
+  <div class="badges-grid" id="badgesGrid"></div>
+  <h3 style="font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.08em">📋 Daily Challenges</h3>
+  <div class="challenge-grid" id="challengeGrid"></div>
+</div>
+
+<div class="divider" style="max-width:1100px;margin:0 auto"></div>
+
+<!-- GLOSSARY -->
+<div id="glossary" class="section" style="scroll-margin-top:70px">
+  <div class="sec-head">
+    <div class="sec-badge">📚 Glossary</div>
+    <h2 class="sec-title">Waste & Environment Terms</h2>
+    <p class="sec-sub">Key definitions every eco-conscious citizen should know.</p>
+  </div>
+  <div class="glossary-list" id="glossaryList"></div>
+</div>
+
+</main>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-hero" id="mHero">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <span class="modal-icon-big" id="mIcon"></span>
+      <div class="modal-name" id="mName"></div>
+      <div id="mBadge" style="margin-top:.5rem"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-label">🗑️ Correct Bin</div>
+        <div class="modal-val" id="mBin"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">📋 Disposal Method</div>
+        <div class="modal-val" id="mDisposal"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">🌿 Environmental Tip</div>
+        <div class="modal-tip-box" id="mTip"></div>
+      </div>
+      <div id="mWarnSection" class="modal-section" style="display:none">
+        <div class="modal-warn" id="mWarn"></div>
+      </div>
+      <div id="mDangerSection" class="modal-section" style="display:none">
+        <div class="modal-danger" id="mDanger"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-label">📊 Did You Know?</div>
+        <div class="modal-impact" id="mImpact"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="mact-btn" onclick="addToTracker(currentModal)">📊 Log in Tracker</button>
+        <button class="mact-btn" id="mFavBtn" onclick="toggleFavModal()">❤️ Favourite</button>
+        <button class="mact-btn primary" onclick="closeModal()">✓ Got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center;font-size:.8rem;color:var(--muted2);background:var(--surface)">
+  <strong style="color:var(--muted)">EcoSort Pro</strong> · Waste Segregation Guide App · CA1 Project<br>
+  <span style="font-size:.72rem">Data: MoEFCC · CPCB · World Bank · UNEP · E-Waste Monitor 2024 · NGT Solid Waste Rules 2016</span><br><br>
+  <span style="font-size:.82rem;color:var(--muted)">🎓 This app was built as part of my CA (Continuous Assessment) project.</span><br>
+  <span style="font-size:.82rem;color:var(--muted)">If you found it useful, please take 2 minutes to support me! 🙏</span><br><br>
+  <a href="https://youtu.be/R1AJu0ILm8Q?si=iyUZ78c1PtZJJJr2" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.3);color:#ff6b6b;padding:.5rem 1.2rem;border-radius:100px;text-decoration:none;font-size:.82rem;font-weight:600;margin-top:.3rem">
+    ▶️ 👍 Like &nbsp;·&nbsp; 💬 Comment &nbsp;·&nbsp; 🔔 Subscribe &nbsp;·&nbsp; Watch on YouTube
+  </a><br>
+  <span style="font-size:.72rem;color:var(--muted2);display:block;margin-top:.5rem">Your support means a lot! 💚</span>
+</footer>
+
+<script>
+// ════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════
+const WASTE = [
+  // WET
+  {id:1,name:"Banana Peel",alias:"Fruit peel",icon:"🍌",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:false,disposal:"Place in the green bin daily. Can be home-composted using a pot composter or sent to municipal composting facility.",tip:"Banana peels are potassium-rich — bury them directly in your garden soil or add to compost bin.",warning:"Never mix with dry waste — contaminates recyclable cardboard and paper.",danger:null,impact:[{num:"50%",lab:"waste reduction"},{num:"3 months",lab:"compost ready in"}],keywords:["banana","peel","fruit","skin"]},
+  {id:2,name:"Vegetable Scraps",alias:"Onion, potato, carrot peels etc.",icon:"🥦",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:false,disposal:"Collect in sealed container; deposit in green bin daily. Avoid letting it sit >24 hrs to prevent odour.",tip:"Vegetable peels can be boiled for a nutritious stock before composting — zero waste cooking!",warning:"Never dump scraps in open drains — causes blockages and waterway pollution.",danger:null,impact:[{num:"40%",lab:"of India's food is wasted"},{num:"↑70%",lab:"of MSW is organic"}],keywords:["vegetable","veggie","onion","carrot","potato","peel","scrap"]},
+  {id:3,name:"Leftover / Cooked Food",alias:"Rice, roti, curry, bread",icon:"🍱",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:false,disposal:"Wrap securely and place in green bin. Edible surplus should be donated to food banks or community fridges.",tip:"Plan meals weekly to reduce leftovers. India wastes ₹92,000 crore worth of food every year.",warning:"Rotting food in landfills generates methane — 25× more potent greenhouse gas than CO₂.",danger:null,impact:[{num:"₹92K Cr",lab:"food wasted in India/yr"},{num:"25×",lab:"methane vs CO₂ potency"}],keywords:["food","leftover","cooked","rice","dal","roti","bread","curry"]},
+  {id:4,name:"Fruit Waste",alias:"Apple, mango, orange scraps",icon:"🍎",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:false,disposal:"Deposit in green wet waste bin. Save seeds of fruits like mango, tamarind — they can be replanted.",tip:"Citrus peels (lemon, orange) can be dried and used as natural mosquito repellent or air freshener.",warning:"Do not flush fruit waste — it blocks sewage systems and pollutes waterways.",danger:null,impact:[{num:"15%",lab:"CO₂ saved by composting"},{num:"0 cost",lab:"DIY pot composter"}],keywords:["fruit","apple","mango","orange","lemon","grapes","watermelon","guava"]},
+  {id:5,name:"Coconut Shell / Husk",alias:"Coir, nariyal",icon:"🥥",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:true,disposal:"Place in wet waste bin. Coconut shells are excellent for producing biochar, a soil amendment.",tip:"Coconut husk (coir) is used to make eco-friendly mats, ropes, potting soil, and grow bags.",warning:"Shells take decades to decompose in landfills — always compost or upcycle them.",danger:null,impact:[{num:"Biochar",lab:"carbon sequestration tool"},{num:"Coir mats",lab:"100% biodegradable"}],keywords:["coconut","shell","husk","coir","nariyal"]},
+  {id:6,name:"Tea / Coffee Grounds",alias:"Used tea bags, filter coffee",icon:"☕",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:true,disposal:"Add directly to compost pile or green bin. Coffee grounds can be applied directly to garden soil.",tip:"Coffee grounds are nitrogen-rich and repel slugs, ants, and cats from your garden naturally.",warning:null,danger:null,impact:[{num:"Nitrogen",lab:"enriches compost"},{num:"Pest-free",lab:"natural garden repellent"}],keywords:["tea","coffee","grounds","bag","leaves","chai"]},
+  {id:7,name:"Garden Waste",alias:"Dry leaves, grass, flowers",icon:"🍂",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:true,disposal:"Deposit in green bin or compost pit. Many municipalities have separate green waste collection days.",tip:"Dry leaves are perfect 'brown matter' for composting — balance with 'green' wet kitchen waste.",warning:"Burning garden waste is banned in many cities and releases harmful PM2.5 particles.",danger:null,impact:[{num:"Mulch",lab:"reduces water usage by 30%"},{num:"Free fertilizer",lab:"from your own yard"}],keywords:["leaf","leaves","garden","grass","plant","flower","weed","trim"]},
+  {id:8,name:"Eggshells",alias:"Anda ka chilka",icon:"🥚",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:true,disposal:"Crush and add to compost bin or green waste. Rinse first to prevent smell. Rich in calcium.",tip:"Crushed eggshells around plant roots deter slugs and snails — a natural, chemical-free solution.",warning:null,danger:null,impact:[{num:"Calcium",lab:"improves soil pH"},{num:"Slug barrier",lab:"no pesticide needed"}],keywords:["egg","shell","eggshell","anda"]},
+  // DRY
+  {id:9,name:"Plastic Bottle",alias:"PET bottle, water bottle",icon:"🧴",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Rinse, crush, and place in blue bin. You can also hand to kabadiwala for extra credit (they'll sell it to recyclers).",tip:"Switch to stainless steel or glass bottles — one reusable bottle replaces ~156 plastic bottles/year.",warning:"Never burn plastic — releases highly toxic dioxins and furans. Never throw into water bodies.",danger:null,impact:[{num:"156",lab:"plastic bottles replaced/yr"},{num:"450 yrs",lab:"plastic takes to decompose"}],keywords:["plastic","bottle","pet","container","water bottle","shampoo","can"]},
+  {id:10,name:"Newspaper / Paper",alias:"Magazine, notebook, cardboard",icon:"📰",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Stack neatly and place in blue bin or tie and give to paper recycler (raddiwala). Keep dry at all times.",tip:"Recycling 1 tonne of paper saves 17 trees, 7,000 gallons of water, and 380 gallons of oil.",warning:"Wet, oily, or food-soiled paper CANNOT be recycled — it goes in wet or reject waste instead.",danger:null,impact:[{num:"17 trees",lab:"saved per tonne recycled"},{num:"60%",lab:"less energy vs virgin paper"}],keywords:["paper","newspaper","magazine","book","notebook","cardboard","raddi"]},
+  {id:11,name:"Glass Bottle / Jar",alias:"Khaali botal, glass container",icon:"🍾",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Rinse and place in blue bin. Wrap broken glass tightly in newspaper before disposing to prevent injury.",tip:"Glass is 100% recyclable forever without any loss of quality or purity — a true circular material.",warning:"Never place loose broken glass in bins — it causes serious injuries to waste collection workers.",danger:null,impact:[{num:"100%",lab:"endlessly recyclable"},{num:"30%",lab:"energy saved vs new glass"}],keywords:["glass","bottle","jar","mirror","container","khaali"]},
+  {id:12,name:"Cardboard Box",alias:"Packaging, carton, corrugated box",icon:"📦",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Flatten boxes to save space. Place in blue dry waste bin or give to kabadiwala. Remove tape/staples if possible.",tip:"Reuse cardboard boxes for storage, moving, or children's craft projects before recycling.",warning:"Greasy or wet cardboard (like pizza boxes) goes to wet/reject waste — it cannot be recycled.",danger:null,impact:[{num:"80%",lab:"of cardboard is recycled"},{num:"24 trees",lab:"saved per tonne"}],keywords:["cardboard","box","carton","packaging","amazon","delivery"]},
+  {id:13,name:"Aluminium Can / Tin",alias:"Cold drink can, dabbas",icon:"🥤",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Rinse and place in blue bin or sell to scrap dealer. Aluminium is one of the most valuable recyclables.",tip:"Recycling aluminium uses 95% less energy than producing it from raw bauxite ore.",warning:null,danger:null,impact:[{num:"95%",lab:"energy saved by recycling"},{num:"Infinite",lab:"times recyclable"}],keywords:["aluminium","aluminum","can","tin","steel","dabba","metal","cold drink"]},
+  {id:14,name:"Plastic Bag",alias:"Polythene bag, carry bag",icon:"🛍️",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin (Clean)",recyclable:true,disposal:"Collect clean bags and return to supermarket plastic bag return bins. Never single-use if avoidable.",tip:"Switch to cloth/jute bags permanently. India banned single-use plastic ≤75μm thickness since July 2022.",warning:"Plastic bags are the #1 cause of drain blockages in Indian cities and kill thousands of cattle/cows yearly.",danger:null,impact:[{num:"1M+",lab:"marine animals die from plastic/yr"},{num:"Banned",lab:"<75μm in India since 2022"}],keywords:["plastic bag","polythene","carry bag","polyethylene","thela"]},
+  {id:15,name:"Clothes / Textiles",alias:"Old garments, fabric, rags",icon:"👗",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin / Donate",recyclable:true,disposal:"Donate wearable clothes. For unusable textiles, contact H&M, Fabindia, or local textile recycling NGOs.",tip:"The fashion industry emits 10% of global CO₂. Buy fewer, wear longer, swap or donate — not discard.",warning:"Synthetic fabrics like polyester take 200+ years to decompose in landfills.",danger:null,impact:[{num:"10%",lab:"of global CO₂ from fashion"},{num:"200+ yrs",lab:"synthetic decomposition time"}],keywords:["clothes","clothing","textile","fabric","garment","shirt","pants","saree","kurta"]},
+  {id:16,name:"Rubber / Old Tyres",alias:"Worn out tyres, rubber hose",icon:"🛞",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue (Bulk Waste)",recyclable:true,disposal:"Return to tyre shops for retreading or contact authorised rubber recyclers. Never put in regular bins.",tip:"Old tyres are recycled into rubber flooring, playground surfaces, and road construction material.",warning:"Burning tyres releases benzene and other carcinogens — a criminal offence in India under the Air Act.",danger:null,impact:[{num:"Rubber road",lab:"lasts 2× longer"},{num:"Criminal",lab:"to burn — Air Act 1981"}],keywords:["rubber","tyre","tire","hose","glove"]},
+  {id:17,name:"Broken Furniture / Wood",alias:"Old chairs, tables, plywood",icon:"🪑",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Bulk Waste Collection",recyclable:true,disposal:"Contact municipal bulk waste collection services. Donate functional furniture to NGOs, schools, or Goonj.",tip:"Upcycle old wooden furniture with sandpaper, paint, or new handles — saves money and trees.",warning:"Dumping furniture in open spaces, roadsides, or drains is illegal and attracts pests.",danger:null,impact:[{num:"Goonj",lab:"accepts old furniture"},{num:"Upcycle",lab:"saves ₹1000s"}],keywords:["wood","furniture","chair","table","wooden","plywood","almirah"]},
+  // E-WASTE
+  {id:18,name:"Mobile Phone",alias:"Smartphone, feature phone",icon:"📱",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 E-Waste Collection Point",recyclable:true,disposal:"Erase personal data (factory reset). Drop at manufacturer take-back programme (Xiaomi, Samsung, Apple) or authorised e-waste centres.",tip:"One smartphone contains 60+ elements including gold, silver, palladium, and rare earth metals. Recycle it — it's a gold mine!",warning:"Do NOT throw in regular bins — lithium batteries can cause fires in garbage trucks and landfills.",danger:"Mobile phones contain arsenic, lead, cadmium — all listed as hazardous substances under E-Waste Rules 2022.",impact:[{num:"60+",lab:"elements per smartphone"},{num:"Gold",lab:"recovered from e-waste"}],keywords:["mobile","phone","smartphone","cellphone","iphone","android","nokia"]},
+  {id:19,name:"Battery",alias:"AA, AAA, lithium, car battery",icon:"🔋",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 Battery Drop Box",recyclable:true,disposal:"Deposit at dedicated battery collection points in electronics stores, supermarkets, and petrol stations. Car batteries go to mechanics.",tip:"Switch to rechargeable NiMH batteries — one set replaces up to 1,000 disposable alkaline batteries.",warning:"Batteries contain lead, cadmium, mercury, and lithium — landfill disposal poisons groundwater for miles.",danger:"Punctured lithium batteries can catch fire spontaneously. Never crush or pierce batteries.",impact:[{num:"1,000×",lab:"replaced by rechargeable"},{num:"Lead",lab:"contaminates groundwater"}],keywords:["battery","cell","alkaline","lithium","rechargeable","inverter","UPS","car battery"]},
+  {id:20,name:"Laptop / Computer",alias:"PC, MacBook, desktop, tablet",icon:"💻",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 E-Waste Centre / Manufacturer",recyclable:true,disposal:"Wipe data securely (use DBAN or factory reset). Return to manufacturer, Attero, E-Parisaraa, or other certified recyclers.",tip:"Donate functional laptops to iGotit, ScrapUncle, or local digital literacy NGOs instead of discarding.",warning:"Circuit boards contain lead solder, cadmium, and hexavalent chromium — illegal to dump in landfills in India.",danger:null,impact:[{num:"300+ kg",lab:"CO₂ per laptop manufactured"},{num:"Data wipe",lab:"mandatory before disposal"}],keywords:["laptop","computer","pc","desktop","mac","tablet","ipad"]},
+  {id:21,name:"Television",alias:"LCD, LED, Smart TV, CRT",icon:"📺",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 E-Waste Centre / Manufacturer EPR",recyclable:true,disposal:"Contact manufacturer's Extended Producer Responsibility (EPR) programme. All brands are obligated under E-Waste Rules 2022.",tip:"Modern LED TVs use 50–75% less power than old CRT TVs. If upgrading, the old one must go to certified e-waste recycler.",warning:"Old CRT televisions contain up to 2 kg of lead per unit — extremely hazardous if screen breaks.",danger:"CRT phosphor coating contains barium and cadmium — never smash or dismantle at home.",impact:[{num:"2 kg",lab:"lead in each CRT TV"},{num:"EPR",lab:"mandatory for all brands"}],keywords:["television","tv","lcd","led","crt","smart tv","monitor"]},
+  {id:22,name:"Charger / Cable / Adaptor",alias:"USB cable, power brick, headphone jack",icon:"🔌",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 E-Waste Collection Drive",recyclable:true,disposal:"Bundle and drop at e-waste drives, electronics stores, or certified recycling centres like Attero or ScrapUncle.",tip:"Check all old chargers before discarding — many still work and can be donated. Untangle, test, then decide.",warning:"Cables contain PVC plastic and heavy metal wiring — never burn or mix with regular household waste.",danger:null,impact:[{num:"PVC",lab:"takes 450 yrs to decompose"},{num:"Test first",lab:"many chargers still work"}],keywords:["charger","cable","wire","adaptor","usb","cord","headphone","earphone"]},
+  {id:23,name:"Refrigerator / AC / Washing Machine",alias:"Fridge, AC, geyser, microwave",icon:"🧊",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 Manufacturer Take-Back / Certified",recyclable:true,disposal:"Contact manufacturer for EPR take-back (all brands must collect). AC units require certified HVAC technicians to remove refrigerant safely.",tip:"Old inverter AC vs old 5-star AC: upgrading can save ₹6,000–₹10,000/year on electricity bills.",warning:"DIY disposal of refrigerators/ACs is illegal — refrigerant gases destroy the ozone layer.",danger:"Refrigerants like R-22 (Freon) are classified ozone-depleting substances. Releasing them is an offence under ODS Rules.",impact:[{num:"ODS",lab:"refrigerants destroy ozone"},{num:"Legal liability",lab:"for improper disposal"}],keywords:["refrigerator","fridge","ac","air conditioner","washing machine","geyser","microwave","oven"]},
+  {id:24,name:"CFL / Tube Light",alias:"Fluorescent lamp, bulb",icon:"💡",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 Lamp Collection Point",recyclable:true,disposal:"Return to lamp collection points at hardware stores (Asian Paints, Philips dealers). Many manufacturers run take-back programmes.",tip:"Switch to LED bulbs — they last 25× longer and use 75% less energy than incandescent bulbs.",warning:"CFLs contain mercury vapour — breaking one indoors requires immediate ventilation and careful cleanup with damp cloth.",danger:"Mercury vapour from broken CFLs is highly toxic — never vacuum broken CFL debris; sweep gently and seal in bag.",impact:[{num:"75%",lab:"energy saved by LED"},{num:"Mercury",lab:"toxic vapour in CFLs"}],keywords:["cfl","bulb","lamp","tube","light","fluorescent","tubelight","energy saver"]},
+  {id:25,name:"Printer / Ink Cartridge",alias:"Toner, scanner, copier",icon:"🖨️",cat:"ewaste",catLabel:"E-Waste",bin:"🔴 Manufacturer Return / Refill Centre",recyclable:true,disposal:"Return ink cartridges to manufacturer refill programmes (HP Planet Partners, Epson, Canon). Printers go to certified e-waste centres.",tip:"Printer cartridge refilling costs 60–70% less and generates 90% less waste than buying new cartridges.",warning:"Printer ink contains chemical solvents — never pour down drains or mix with household waste.",danger:null,impact:[{num:"90%",lab:"less waste by refilling"},{num:"60%",lab:"cheaper than new cartridge"}],keywords:["printer","ink","cartridge","toner","scanner","copier"]},
+  // HAZARDOUS
+  {id:26,name:"Pesticide / Chemical Container",alias:"Insecticide, fertiliser bottle",icon:"🧪",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Hazardous Waste Facility",recyclable:false,disposal:"Take to municipal hazardous waste collection drive or CPCB-authorised treatment facility. Never reuse containers.",tip:"Switch to neem oil, soap spray, or companion planting as natural, non-toxic pest control alternatives.",warning:"Never pour pesticide residue in drains, soil, or regular bins — causes severe soil and water contamination.",danger:"Pesticides are acutely toxic — exposure causes nerve damage, cancer risk, and endocrine disruption.",impact:[{num:"Cancer risk",lab:"from pesticide exposure"},{num:"Neem oil",lab:"safe, natural alternative"}],keywords:["pesticide","chemical","insecticide","fertiliser","poison","spray","kerosene"]},
+  {id:27,name:"Medicine / Expired Drugs",alias:"Tablets, syrups, capsules",icon:"💊",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Pharmacy Return / Drug Disposal",recyclable:false,disposal:"Return to pharmacies (many have medicine return programmes). Contact municipal hazardous waste drives. Never flush drugs.",tip:"Keep a 'medicine audit' — check expiry every 6 months and return expired meds to pharmacy promptly.",warning:"Flushing medicines contaminates drinking water — pharmaceutical compounds are found in 80% of US rivers.",danger:"Accidental ingestion of discarded medicines is a leading cause of child poisoning — secure disposal is critical.",impact:[{num:"80%",lab:"of rivers have pharma residue"},{num:"Child safety",lab:"secure disposal critical"}],keywords:["medicine","drug","tablet","syrup","capsule","expired","pharma"]},
+  {id:28,name:"Paint / Solvent / Thinner",alias:"Wall paint, varnish, adhesive",icon:"🎨",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Hazardous Waste Collection",recyclable:false,disposal:"Allow leftover paint to dry fully (in can, lid off) before disposal. Contact municipal hazardous waste drives for large quantities.",tip:"Buy only the exact quantity of paint you need. Many paint shops accept opened cans of brand paint.",warning:"Liquid paint poured in drains or soil is a serious environmental crime under Indian environmental laws.",danger:"Paint solvents are flammable and release VOCs — carcinogenic vapours that harm lungs and nervous system.",impact:[{num:"VOCs",lab:"carcinogenic vapours"},{num:"Dry first",lab:"before disposal"}],keywords:["paint","solvent","thinner","varnish","adhesive","glue","turpentine"]},
+  {id:29,name:"Sanitary Waste",alias:"Pads, diapers, medical waste",icon:"🩹",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Red Bin (Sanitary/Medical)",recyclable:false,disposal:"Wrap securely in paper/newspaper and place in red/black sanitary waste bin. Do NOT flush sanitary products.",tip:"Consider switching to menstrual cups (last 5–10 years), reusable cloth pads, or period underwear for dramatically less waste.",warning:"Flushing sanitary products blocks drains and pollutes water bodies. This is a major cause of sewage overflow in India.",danger:null,impact:[{num:"8B",lab:"pads disposed annually in India"},{num:"Menstrual cup",lab:"1 cup = 5 yrs of pads"}],keywords:["sanitary","pad","diaper","napkin","medical","bandage","wound"]},
+  // MORE ITEMS
+  {id:30,name:"Thermocol / Styrofoam",alias:"EPS, packaging foam",icon:"📫",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:false,disposal:"Place in blue bin. Very few facilities recycle thermocol — reducing use is more impactful than recycling.",tip:"Refuse thermocol packaging where possible. Opt for cardboard, paper, or moulded pulp packaging alternatives.",warning:"Thermocol never fully biodegrades — it breaks into micro-plastics that enter food chains for thousands of years.",danger:null,impact:[{num:"Micro-plastic",lab:"enters food chain"},{num:"Never",lab:"fully biodegrades"}],keywords:["thermocol","styrofoam","foam","eps","packaging foam","polystyrene"]},
+  {id:31,name:"Pen / Stationery",alias:"Ballpoint pen, marker, eraser",icon:"✏️",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:false,disposal:"Place in blue bin. Staedtler and BIC have pen take-back programmes at select stationery stores.",tip:"Use refillable pens, mechanical pencils, and fountain pens — they last years and reduce plastic pen waste significantly.",warning:"The plastic barrel of a ballpoint pen takes over 100 years to decompose.",danger:null,impact:[{num:"100+ yrs",lab:"pen plastic decomposition"},{num:"Refillable",lab:"pens last years"}],keywords:["pen","pencil","marker","eraser","stationery","scale","compass"]},
+  {id:32,name:"Cooking Oil (Used)",alias:"Khaana pakane ka tel",icon:"🛢️",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Used Oil Collection / Biogas",recyclable:true,disposal:"Never pour down the drain — collects in sewers. Store in sealed container. Many biodiesel plants and biofuel companies collect used cooking oil.",tip:"Used cooking oil can be converted into biodiesel and soap. The startup 'Greenroots' and others collect it in Indian cities.",warning:"Pouring cooking oil in drains is one of the top causes of 'fatbergs' — massive blockages costing crores to clear.",danger:null,impact:[{num:"Biodiesel",lab:"from used cooking oil"},{num:"Fatbergs",lab:"cost crores to clear"}],keywords:["oil","cooking oil","tel","grease","frying oil","ghee"]},
+  {id:33,name:"Milk / Juice Carton (Tetra Pak)",alias:"UHT carton, juice box",icon:"🥛",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Rinse, flatten, and place in blue bin. Tetra Pak runs a school and community carton collection programme in India.",tip:"Tetra Pak cartons are made of 74% paper, 22% plastic, and 4% aluminium — all recoverable through specialised recycling.",warning:"Wet cartons cannot be recycled — rinse and dry completely before placing in bin.",danger:null,impact:[{num:"74%",lab:"paper in Tetra Pak"},{num:"India recycling",lab:"schools programme"}],keywords:["milk","juice","carton","tetra pak","tetrapak","box","amul","frooti"]},
+  {id:34,name:"Old Spectacles / Glasses",alias:"Chashma, sunglasses",icon:"👓",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Donate First",recyclable:true,disposal:"Donate usable spectacles to Lions Club Eye Bank or Vision Aid charity. Broken frames go to blue bin as dry waste.",tip:"Old glasses can restore vision to those who can't afford opticians — donate before discarding.",warning:null,danger:null,impact:[{num:"1B people",lab:"need but can't afford glasses"},{num:"Lions Club",lab:"collects old specs"}],keywords:["spectacles","glasses","chashma","sunglasses","lens","opticals"]},
+  {id:35,name:"Cigarette Butt",alias:"Bidi, cigar stub",icon:"🚬",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Cigarette Receptacle / Hazardous",recyclable:false,disposal:"Use designated cigarette receptacles (ashtrays). Never throw on ground or in water. Some cities have special collection points.",tip:"Cigarette filters (acetate cellulose) take 10 years to decompose and leach 7,000 chemicals into soil and water.",warning:"One cigarette butt can contaminate up to 1,000 litres of water — the most littered item on beaches globally.",danger:"Cigarette butts are the #1 most littered item globally — 4.5 trillion discarded per year.",impact:[{num:"4.5 Trillion",lab:"butts littered per year"},{num:"1,000 L",lab:"water contaminated per butt"}],keywords:["cigarette","bidi","butt","cigar","smoking","stub"]},
+  {id:36,name:"Aerosol Can / Spray",alias:"Deodorant, insecticide spray can",icon:"🧹",cat:"hazardous",catLabel:"Hazardous Waste",bin:"🔴 Hazardous / 🔵 Empty = Dry",recyclable:false,disposal:"Empty cans with lid off can go in blue bin. Partially filled cans must go to hazardous waste collection — never puncture.",tip:"Replace aerosol deodorants with roll-ons or solid bars — they use zero propellant gases and last longer.",warning:"Never puncture or incinerate aerosol cans — the pressurised contents can explode violently.",danger:"Aerosol propellants are often flammable hydrocarbons. Never spray near open flame.",impact:[{num:"Roll-on",lab:"zero propellant waste"},{num:"Never puncture",lab:"risk of explosion"}],keywords:["aerosol","spray","deodorant","insecticide spray","can","deo"]},
+  {id:37,name:"Newspaper Bag / Origami",alias:"Paper bag (homemade)",icon:"🗞️",cat:"wet",catLabel:"Wet Waste → Upcycle!",bin:"🟢 Reuse First!",recyclable:true,disposal:"Newspaper can be folded into shopping bags — no disposal needed! Use, then compost or recycle.",tip:"Fold old newspapers into cone bags for vegetables. It's free, biodegradable, and replaces plastic bags!",warning:null,danger:null,impact:[{num:"Free bag",lab:"from yesterday's paper"},{num:"100% biodegradable",lab:"newspaper bag"}],keywords:["newspaper bag","paper bag","origami","fold","raddi bag"]},
+  {id:38,name:"Water / RO Reject Water",alias:"RO waste water, filter water",icon:"💧",cat:"wet",catLabel:"Wet Waste (Liquid)",bin:"♻️ Reuse — Don't Waste!",recyclable:true,disposal:"Collect RO reject water in a bucket. Use for mopping, flushing, watering plants, or washing vehicles. Never discard.",tip:"An RO purifier rejects 3 litres for every 1 litre purified — collecting reject water can save 70–90 litres/day.",warning:"Discarding RO reject water in drains is a massive waste — India faces acute water stress.",danger:null,impact:[{num:"3:1",lab:"reject to purified ratio"},{num:"70-90 L/day",lab:"saved by reusing reject water"}],keywords:["water","ro","reject","filter","wastewater","borewell","rainwater"]},
+  {id:39,name:"Cardboard Tube / Paper Roll",alias:"Toilet roll, kitchen roll core",icon:"🧻",cat:"dry",catLabel:"Dry Waste",bin:"🔵 Blue Bin",recyclable:true,disposal:"Flatten and place in blue bin with other paper. Can also be composted or used for DIY craft projects.",tip:"Cardboard tubes are excellent seed starters — fill with soil, plant a seed, and the tube biodegrades in the ground!",warning:null,danger:null,impact:[{num:"Seed starter",lab:"biodegradable pot"},{num:"Paper tube",lab:"fully recyclable"}],keywords:["cardboard tube","toilet roll","kitchen roll","paper roll","core","tube"]},
+  {id:40,name:"Hair / Human Waste",alias:"Nail clippings, cut hair",icon:"💇",cat:"wet",catLabel:"Wet Waste",bin:"🟢 Green Bin",recyclable:false,disposal:"Wrap in paper and place in the green bin. Hair decomposes naturally and adds nitrogen to compost.",tip:"Hair can be composted! It's rich in nitrogen. Salons can donate hair clippings to Goonj or environmental orgs who use it to filter oil spills.",warning:"Never flush hair — it tangles around pipes and causes massive plumbing blockages.",danger:null,impact:[{num:"Nitrogen-rich",lab:"hair adds nutrients to compost"},{num:"Oil absorbent",lab:"hair mats absorb oil spills"}],keywords:["hair","nail","clippings","salon","barber","baal"]},
+];
+
+// ════════════════════════════════════════════
+// QUIZ (15 Questions)
+// ════════════════════════════════════════════
+const QUIZ_DATA = [
+  {cat:"🟢 Wet Waste",q:"Which of the following is classified as WET waste?",opts:["A. Plastic water bottle","B. Banana peel","C. Old newspaper","D. Mobile phone charger"],ans:1,explain:"Banana peels are biodegradable organic waste — they belong in the green bin and can be composted."},
+  {cat:"📊 Statistics",q:"Approximately how many million tonnes of solid waste does India generate annually?",opts:["A. 15 million tonnes","B. 35 million tonnes","C. 62 million tonnes","D. 120 million tonnes"],ans:2,explain:"India generates approximately 62 million tonnes of municipal solid waste annually, according to MoEFCC data."},
+  {cat:"⚡ E-Waste",q:"Where should you dispose of an old mobile phone?",opts:["A. Green bin","B. Blue bin","C. Manufacturer take-back or certified e-waste centre","D. Flush it away"],ans:2,explain:"Mobile phones contain lithium batteries and hazardous metals — they must go to certified e-waste collection points."},
+  {cat:"📦 Dry Waste",q:"Which of the following is INCORRECTLY matched to its disposal method?",opts:["A. Glass bottle — Blue bin","B. Cardboard box — Flattened into blue bin","C. Pizza box (greasy) — Blue recycling bin","D. Aluminium can — Blue bin"],ans:2,explain:"Greasy or food-soiled cardboard like a pizza box CANNOT be recycled — it must go to wet or reject waste, not the blue bin."},
+  {cat:"🌍 Environment",q:"Methane produced by organic waste in landfills is how many times more potent than CO₂?",opts:["A. 5 times","B. 10 times","C. 25 times","D. 100 times"],ans:2,explain:"Methane is approximately 25× more potent than CO₂ as a greenhouse gas over a 100-year period, making organic landfill waste a serious climate issue."},
+  {cat:"⚖️ Law",q:"India banned single-use plastic items below what thickness from July 1, 2022?",opts:["A. 25 microns","B. 50 microns","C. 75 microns","D. 100 microns"],ans:2,explain:"India banned single-use plastic items with a thickness of 75 microns or less from July 1, 2022 under the Plastic Waste Management Amendment Rules."},
+  {cat:"☣️ Hazardous",q:"What makes batteries hazardous waste?",opts:["A. They are too heavy","B. They contain lead, cadmium, and lithium that poison groundwater","C. They take up too much space","D. They smell bad"],ans:1,explain:"Batteries contain heavy metals like lead, cadmium, and lithium that leach into soil and groundwater, causing serious environmental and health damage."},
+  {cat:"♻️ Recycling",q:"Recycling one tonne of paper saves approximately how many trees?",opts:["A. 5 trees","B. 17 trees","C. 50 trees","D. 100 trees"],ans:1,explain:"Recycling 1 tonne of paper saves approximately 17 trees, 7,000 gallons of water, and 380 gallons of oil."},
+  {cat:"💡 E-Waste",q:"CFL bulbs should be handled with care because they contain:",opts:["A. Argon gas","B. Carbon dioxide","C. Mercury vapour","D. Hydrogen"],ans:2,explain:"CFLs contain small amounts of mercury vapour — if broken indoors, ventilate immediately. They must be returned to designated lamp collection points."},
+  {cat:"📊 Statistics",q:"What percentage of India's solid waste is organic / wet waste?",opts:["A. 20%","B. 40%","C. 70%","D. 90%"],ans:2,explain:"About 70% of India's municipal solid waste is organic/wet waste. If composted properly, it could generate biogas, energy, and manure instead of filling landfills."},
+  {cat:"♻️ Recycling",q:"Aluminium can be recycled using how much less energy compared to producing it from raw ore?",opts:["A. 30%","B. 60%","C. 75%","D. 95%"],ans:3,explain:"Recycling aluminium uses an incredible 95% less energy than producing it from bauxite ore — making it one of the most energy-efficient materials to recycle."},
+  {cat:"🌊 Water",q:"How much water can ONE cigarette butt contaminate?",opts:["A. 1 litre","B. 10 litres","C. 100 litres","D. 1,000 litres"],ans:3,explain:"A single cigarette butt can contaminate up to 1,000 litres of water with nicotine, arsenic, and other toxic chemicals — making them one of the most damaging forms of litter."},
+  {cat:"🧪 Hazardous",q:"What is the correct way to dispose of EXPIRED MEDICINES?",opts:["A. Flush down the toilet","B. Mix with regular household waste","C. Return to pharmacy or hazardous waste drive","D. Bury in garden"],ans:2,explain:"Medicines must be returned to pharmacies or hazardous waste collection drives. Flushing them contaminates drinking water — pharmaceutical compounds are found in 80% of rivers globally."},
+  {cat:"⚡ E-Waste",q:"Which law mandates brands to collect their own e-waste in India?",opts:["A. Forest Conservation Act","B. E-Waste Management Rules 2022 (EPR)","C. Motor Vehicles Act","D. Food Safety Act"],ans:1,explain:"The E-Waste Management Rules 2022 mandate all electronics manufacturers to implement Extended Producer Responsibility (EPR) — collecting and recycling their own products."},
+  {cat:"🌱 Tips",q:"A menstrual cup can replace how many years' worth of disposable sanitary pads?",opts:["A. 6 months","B. 1 year","C. 5 years","D. 20 years"],ans:2,explain:"A single menstrual cup can last 5–10 years with proper care, replacing thousands of disposable pads and significantly reducing sanitary waste."},
+];
+
+// ════════════════════════════════════════════
+// ECO TIPS (16)
+// ════════════════════════════════════════════
+const TIPS = [
+  {icon:"🛍️",title:"Carry a Cloth Bag",cat:"Plastic Reduction",text:"Keep a foldable cloth bag in your pocket or purse permanently. Refuse plastic bags at every shop — they're India's #1 drain clogger.",liked:false},
+  {icon:"🌱",title:"Start a Pot Composter",cat:"Composting",text:"A simple pot with holes, kitchen scraps, and dry leaves can produce rich compost in 3 months. No smell, no cost, great for plants.",liked:false},
+  {icon:"🔋",title:"Go Rechargeable",cat:"Battery Waste",text:"Switch alkaline batteries for rechargeable NiMH. One set replaces up to 1,000 disposable batteries over its lifetime.",liked:false},
+  {icon:"📱",title:"Extend Your Phone's Life",text:"Use a protective case, replace battery instead of phone. Manufacturing 1 smartphone = CO₂ of using it for 70 years.",cat:"E-Waste",liked:false},
+  {icon:"💡",title:"Switch to LED Bulbs",cat:"Energy",text:"LED bulbs use 75% less energy and last 25× longer than incandescent. Replace during Diwali — buy all at once!",liked:false},
+  {icon:"🥗",title:"Plan Weekly Meals",cat:"Food Waste",text:"India wastes 40% of food produced — worth ₹92,000 crore/year. A simple weekly menu and shopping list can cut food waste by 60%.",liked:false},
+  {icon:"🚿",title:"5-Minute Shower Challenge",cat:"Water",text:"A 5-min shower uses 45 L vs 200 L for a bath. Place a bucket in the shower — when it's full, your shower's too long!",liked:false},
+  {icon:"👗",title:"Buy Second-Hand First",cat:"Fashion",text:"Fashion emits 10% of global CO₂. Try thrift stores, swap events, or rent-before-buy services before purchasing new clothes.",liked:false},
+  {icon:"🗞️",title:"Fold Newspaper Bags",cat:"Plastic Reduction",text:"Fold old newspapers into cone bags for vegetables — free, biodegradable, and completely replaces plastic bags for daily grocery shopping.",liked:false},
+  {icon:"🌊",title:"Join a Clean-Up Drive",cat:"Community",text:"1 person in 1 hour can collect 25 kg of waste. Look for #TrashTag, Swachh Bharat, or local NSS/NCC clean-up events near you.",liked:false},
+  {icon:"💧",title:"Reuse RO Reject Water",cat:"Water",text:"RO purifiers reject 3 L per 1 L purified. Collect reject water in a bucket — use it for mopping, flushing, or watering plants.",liked:false},
+  {icon:"☕",title:"Switch to a Reusable Mug",cat:"Waste Reduction",text:"Indians discard 100 billion disposable cups yearly. A personal mug pays for itself in 1–2 uses at most cafes, which offer discounts.",liked:false},
+  {icon:"📦",title:"Refuse Extra Packaging",cat:"Dry Waste",text:"Ask for no straw, no extra napkins, no plastic cutlery when ordering food. Refusal is the highest form of recycling — don't create it!",liked:false},
+  {icon:"🌿",title:"Plant One Tree This Month",cat:"Carbon Offset",text:"One mature tree absorbs ~21 kg of CO₂/year. Plant a native tree on your birthday or festival — it's the best environmental gift.",liked:false},
+  {icon:"🔧",title:"Repair Before Replacing",cat:"E-Waste",text:"Before buying a new phone, fan, or appliance — visit a repair café or local repair shop. Repair costs 10–20% of replacement.",liked:false},
+  {icon:"🎯",title:"The 3R Priority Order",cat:"Awareness",text:"REFUSE what you don't need → REDUCE what you use → REUSE as many times as possible → then Recycle. In that exact order!",liked:false},
+];
+
+// ════════════════════════════════════════════
+// STATS DATA
+// ════════════════════════════════════════════
+const STATS_DATA = [
+  {num:"62M",desc:"Tonnes of solid waste generated in India annually",src:"MoEFCC, 2022"},
+  {num:"~22%",desc:"Percentage of India's waste that is actually processed or recycled",src:"CPCB Annual Report"},
+  {num:"2B+",desc:"People worldwide lacking access to solid waste collection",src:"World Bank, 2022"},
+  {num:"3.4B",desc:"Tonnes of waste generated globally per year — rising to 3.88B by 2050",src:"What a Waste 2.0, World Bank"},
+  {num:"1.7M",desc:"Tonnes of e-waste generated in India/year — 3rd largest e-waste producer",src:"E-Waste Monitor 2024"},
+  {num:"~5%",desc:"Percentage of plastic waste recycled in India; rest enters landfills or oceans",src:"CPCB Plastic Data"},
+  {num:"70%",desc:"Share of India's MSW that is organic/wet — compostable or biogas-capable",src:"MoEFCC Waste Composition"},
+  {num:"₹50K Cr",desc:"Estimated economic value of waste if fully recycled and valorised",src:"ASSOCHAM India"},
+];
+const PROBLEMS = [
+  "Mixed waste contaminates recyclables — making paper, plastic and glass unrecyclable",
+  "Wet waste in landfills generates methane — 25× more potent greenhouse gas than CO₂",
+  "E-waste contains lead, mercury & cadmium — poisons soil and groundwater for miles",
+  "Open dumping breeds disease vectors: mosquitoes (dengue, malaria) and rodents (leptospirosis)",
+  "Burning mixed waste releases dioxins and furans — Group 1 carcinogens (WHO)",
+  "Ocean plastic kills 1 million+ seabirds and 100,000 marine mammals per year (UNEP)",
+  "Urban flooding worsened by plastic drain blockages — Mumbai 2005 floods were partly due to clogged drains",
+  "Informal waste workers exposed to hazardous materials without protective equipment",
+];
+const BENEFITS = [
+  "Composting wet waste produces organic fertiliser — reduces chemical fertiliser dependency",
+  "Recycling 1 tonne of paper saves 17 trees, 7,000 gallons water & 380 gallons oil",
+  "Proper e-waste recycling recovers gold, silver, copper & rare earth metals worth crores",
+  "Reduces landfill burden — extends their operational lifespan by decades",
+  "Creates green jobs — India's recycling sector employs 1.5 million+ informal workers",
+  "Biogas from wet waste can power households — reducing LPG dependency in rural areas",
+  "Clean cities attract tourism and investment — Clean City awards boost local economies",
+  "Better public health outcomes — reduced vector-borne disease incidence in clean neighbourhoods",
+];
+const SOURCES = [
+  "Ministry of Environment, Forest & Climate Change (MoEFCC) — Solid Waste Generation Data, 2022",
+  "World Bank — 'What a Waste 2.0' Global Solid Waste Management Report, 2022",
+  "Central Pollution Control Board (CPCB) — Annual Report on Municipal Solid Waste Management",
+  "E-Waste Monitor 2024 — Global E-Waste Statistics Partnership (ITU, UNITAR, UNU)",
+  "United Nations Environment Programme (UNEP) — Global Plastic Pollution Statistics",
+  "ASSOCHAM India — Economic Value of Recycling and Circular Economy Report",
+  "National Green Tribunal (NGT) — Solid Waste Management Rules 2016",
+  "Swachh Bharat Mission — Progress Reports & Urban Sanitation Statistics",
+];
+
+// ════════════════════════════════════════════
+// GLOSSARY
+// ════════════════════════════════════════════
+const GLOSSARY = [
+  {term:"🌿 Biodegradable",def:"Material that can be broken down by microorganisms into natural elements. E.g., food scraps, paper, wood."},
+  {term:"♻️ Recycling",def:"Processing used materials into new products to prevent waste of potentially useful materials."},
+  {term:"🗑️ MSW",def:"Municipal Solid Waste — solid waste generated by households, commercial establishments, and institutions in urban areas."},
+  {term:"☣️ Hazardous Waste",def:"Waste with properties that make it dangerous or potentially harmful to human health or the environment (e.g., batteries, chemicals)."},
+  {term:"🌱 Composting",def:"Biological decomposition of organic matter (food, garden waste) into nutrient-rich compost used as a soil amendment."},
+  {term:"⚡ E-Waste",def:"Electronic waste — discarded electrical and electronic equipment including phones, computers, TVs, and batteries."},
+  {term:"🔄 EPR",def:"Extended Producer Responsibility — a policy approach where manufacturers are responsible for the end-of-life disposal of their products."},
+  {term:"🌊 Micro-plastics",def:"Tiny plastic particles under 5mm created by the breakdown of larger plastics. Found in oceans, soil, and even human blood."},
+  {term:"⛽ Biogas",def:"Gas produced by anaerobic decomposition of organic matter, primarily methane and CO₂. Used as a renewable fuel source."},
+  {term:"🏭 Landfill",def:"A site for disposal of waste materials by burial. Sanitary landfills have containment liners to prevent leaching."},
+  {term:"🔃 Circular Economy",def:"An economic model where materials are kept in use for as long as possible through reuse, repair, remanufacturing, and recycling."},
+  {term:"💨 VOC",def:"Volatile Organic Compounds — organic chemicals that evaporate at room temperature; many are harmful to health and air quality (e.g., from paint, solvents)."},
+  {term:"🧪 Leachate",def:"Liquid that drains from landfills, picking up contaminants as it moves through waste. A major cause of groundwater pollution."},
+  {term:"🌡️ Methane (CH₄)",def:"A greenhouse gas produced by decomposition of organic waste in landfills and livestock. 25× more potent than CO₂ over 100 years."},
+  {term:"🪣 Vermicompost",def:"Compost produced by using earthworms (red wigglers) to decompose organic matter. Higher in nutrients than regular compost."},
+  {term:"🌿 Upcycling",def:"The process of transforming by-products or waste materials into new materials or products of greater quality or value."},
+];
+
+// ════════════════════════════════════════════
+// BADGES & CHALLENGES
+// ════════════════════════════════════════════
+const BADGES_DEF = [
+  {id:"first_search",icon:"🔍",name:"First Steps",desc:"Searched for a waste item",xp:10},
+  {id:"quiz_complete",icon:"🧠",name:"Quiz Master",desc:"Completed the full quiz",xp:50},
+  {id:"perfect_quiz",icon:"🌟",name:"Eco Champion",desc:"Scored 15/15 on quiz",xp:100},
+  {id:"five_favourites",icon:"❤️",name:"Wishlist",desc:"Saved 5 favourite items",xp:25},
+  {id:"tracker_10",icon:"📊",name:"Waste Logger",desc:"Logged 10+ items in tracker",xp:30},
+  {id:"all_cats",icon:"🗂️",name:"Classifier",desc:"Explored all 4 categories",xp:20},
+  {id:"tip_liked",icon:"💚",name:"Inspired",desc:"Liked a tip",xp:10},
+  {id:"compared",icon:"⚖️",name:"Analyst",desc:"Used the compare feature",xp:15},
+  {id:"glossary_viewed",icon:"📚",name:"Scholar",desc:"Read the glossary",xp:10},
+];
+
+// ════════════════════════════════════════════
+// APP STATE
+// ════════════════════════════════════════════
+let state = {
+  cat: "all", q: "",
+  favs: JSON.parse(localStorage.getItem("ecosort_favs")||"[]"),
+  tracker: JSON.parse(localStorage.getItem("ecosort_tracker")||"{}"),
+  xp: parseInt(localStorage.getItem("ecosort_xp")||"0"),
+  badges: JSON.parse(localStorage.getItem("ecosort_badges")||"[]"),
+  quizState: {idx:0,score:0,answered:false,done:false},
+  likedTips: JSON.parse(localStorage.getItem("ecosort_tips")||"[]"),
+  catsExplored: JSON.parse(localStorage.getItem("ecosort_cats")||"[]"),
+  currentModal: null,
+  theme: localStorage.getItem("ecosort_theme")||"dark",
+};
+function save(){
+  localStorage.setItem("ecosort_favs", JSON.stringify(state.favs));
+  localStorage.setItem("ecosort_tracker", JSON.stringify(state.tracker));
+  localStorage.setItem("ecosort_xp", state.xp);
+  localStorage.setItem("ecosort_badges", JSON.stringify(state.badges));
+  localStorage.setItem("ecosort_tips", JSON.stringify(state.likedTips));
+  localStorage.setItem("ecosort_cats", JSON.stringify(state.catsExplored));
+  localStorage.setItem("ecosort_theme", state.theme);
+  document.getElementById("navPoints").textContent = state.xp;
+}
+function addXP(n){state.xp+=n;save();renderXP();showXPToast(n);}
+function showXPToast(n){
+  const t=document.createElement("div");
+  t.textContent=`+${n} XP`;
+  t.style.cssText="position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--accent);color:#0f1a0f;font-weight:700;font-size:.9rem;padding:.6rem 1.2rem;border-radius:100px;animation:fadeUp .3s ease;pointer-events:none;box-shadow:0 4px 20px rgba(46,204,113,.4)";
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+function earnBadge(id){
+  if(state.badges.includes(id)) return;
+  state.badges.push(id);
+  const b=BADGES_DEF.find(x=>x.id===id);
+  if(b){addXP(b.xp);showBadgeToast(b);}
+  save();renderBadges();
+}
+function showBadgeToast(b){
+  const t=document.createElement("div");
+  t.innerHTML=`<div style="font-size:1.5rem">${b.icon}</div><div><div style="font-weight:700;font-size:.85rem">${b.name}</div><div style="font-size:.75rem;opacity:.8">${b.desc}</div></div>`;
+  t.style.cssText="position:fixed;bottom:4rem;right:2rem;z-index:9999;background:var(--surface2);border:1px solid rgba(240,192,64,.4);color:var(--text);padding:.9rem 1.2rem;border-radius:14px;animation:fadeUp .3s ease;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.4);display:flex;align-items:center;gap:.7rem;max-width:240px";
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+
+// ════════════════════════════════════════════
+// SEARCH / FILTER
+// ════════════════════════════════════════════
+let currentModal = null;
+function getItems(){
+  const q=state.q.toLowerCase();
+  const sort=document.getElementById("sortSelect").value;
+  let items=WASTE.filter(i=>{
+    if(state.cat==="fav") return state.favs.includes(i.id);
+    if(state.cat!=="all" && i.cat!==state.cat) return false;
+    if(!q) return true;
+    return i.name.toLowerCase().includes(q)||i.keywords.some(k=>k.includes(q))||(i.alias&&i.alias.toLowerCase().includes(q));
+  });
+  if(sort==="name") items.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sort==="cat") items.sort((a,b)=>a.cat.localeCompare(b.cat));
+  else if(sort==="recyclable") items.sort((a,b)=>Number(b.recyclable)-Number(a.recyclable));
+  return items;
+}
+function renderCards(){
+  const items=getItems();
+  const grid=document.getElementById("wasteGrid");
+  document.getElementById("resultCount").textContent=`Showing ${items.length} of ${WASTE.length} items`;
+  if(!items.length){
+    grid.innerHTML=`<div class="empty"><span class="empty-icon">🔎</span>No items found. Try a different keyword or category.</div>`;return;
+  }
+  grid.innerHTML=items.map(i=>`
+    <div class="wcard ${i.cat}" onclick="openModal(${i.id})">
+      <button class="wcard-fav ${state.favs.includes(i.id)?'active':''}" onclick="toggleFav(event,${i.id})">${state.favs.includes(i.id)?'❤️':'🤍'}</button>
+      <div class="wcard-top">
+        <div class="wcard-icon">${i.icon}</div>
+        <div><div class="wcard-name">${i.name}</div>${i.alias?`<div class="wcard-alias">${i.alias}</div>`:''}</div>
+      </div>
+      <span class="wcard-badge">${i.cat==='wet'?'💧':i.cat==='dry'?'📦':i.cat==='ewaste'?'⚡':'☣️'} ${i.catLabel}</span>
+      <div class="wcard-disposal">${i.disposal}</div>
+      <div class="wcard-tip">🌿 ${i.tip}</div>
+      <div class="wcard-footer">
+        <button class="wcard-detail-btn">View full guide →</button>
+        <span class="wcard-recyclable">${i.recyclable?'♻️ Recyclable':'🚫 Not Recyclable'}</span>
+      </div>
+    </div>
+  `).join('');
+}
+function handleSearch(){
+  state.q=document.getElementById("searchInput").value;
+  document.getElementById("searchClear").style.display=state.q?"block":"none";
+  renderCards();
+  if(state.q) earnBadge("first_search");
+}
+function clearSearch(){document.getElementById("searchInput").value="";state.q="";document.getElementById("searchClear").style.display="none";renderCards();}
+function setCat(cat,btn){
+  state.cat=cat;
+  document.querySelectorAll(".filter-chip").forEach(b=>b.className="filter-chip");
+  btn.classList.add("on-"+cat);
+  renderCards();
+  if(!state.catsExplored.includes(cat)){state.catsExplored.push(cat);save();}
+  if(["wet","dry","ewaste","hazardous"].every(c=>state.catsExplored.includes(c))) earnBadge("all_cats");
+}
+function toggleFav(e,id){
+  e.stopPropagation();
+  if(state.favs.includes(id)) state.favs=state.favs.filter(x=>x!==id);
+  else{state.favs.push(id);if(state.favs.length>=5) earnBadge("five_favourites");}
+  save();renderCards();
+}
+
+// ════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════
+function openModal(id){
+  const item=WASTE.find(i=>i.id===id);
+  if(!item) return;
+  currentModal=item;
+  const catColor=item.cat==="wet"?"var(--wet)":item.cat==="dry"?"var(--dry)":item.cat==="ewaste"?"var(--ew)":"var(--haz)";
+  document.getElementById("mHero").style.borderBottom=`3px solid ${catColor}`;
+  document.getElementById("mIcon").textContent=item.icon;
+  document.getElementById("mName").textContent=item.name;
+  const catLabels={wet:"💧 Wet Waste",dry:"📦 Dry Waste",ewaste:"⚡ E-Waste",hazardous:"☣️ Hazardous"};
+  document.getElementById("mBadge").innerHTML=`<span class="wcard-badge" style="background:${item.cat==='wet'?'rgba(30,140,58,.15)':item.cat==='dry'?'rgba(192,120,0,.15)':item.cat==='ewaste'?'rgba(23,86,184,.15)':'rgba(192,57,43,.15)'};color:${catColor};border:1px solid ${catColor}40">${catLabels[item.cat]}</span> <span style="font-size:.78rem;color:var(--muted)">${item.recyclable?'♻️ Recyclable':'🚫 Not recyclable'}</span>`;
+  document.getElementById("mBin").textContent=item.bin;
+  document.getElementById("mDisposal").textContent=item.disposal;
+  document.getElementById("mTip").textContent="🌿 "+item.tip;
+  const ws=document.getElementById("mWarnSection"),ds=document.getElementById("mDangerSection");
+  if(item.warning){ws.style.display="block";document.getElementById("mWarn").innerHTML="⚠️ <span>"+item.warning+"</span>";}else ws.style.display="none";
+  if(item.danger){ds.style.display="block";document.getElementById("mDanger").innerHTML="🚨 <span>"+item.danger+"</span>";}else ds.style.display="none";
+  document.getElementById("mImpact").innerHTML=item.impact.map(x=>`<div class="impact-pill"><span class="impact-num">${x.num}</span><span class="impact-lab">${x.lab}</span></div>`).join('');
+  const fb=document.getElementById("mFavBtn");
+  fb.textContent=state.favs.includes(id)?"💔 Unfavourite":"❤️ Favourite";
+  document.getElementById("overlay").classList.add("open");
+}
+function closeModal(e){if(!e||e.target===document.getElementById("overlay"))document.getElementById("overlay").classList.remove("open");}
+function toggleFavModal(){
+  if(!currentModal) return;
+  const id=currentModal.id;
+  if(state.favs.includes(id)) state.favs=state.favs.filter(x=>x!==id);
+  else{state.favs.push(id);if(state.favs.length>=5) earnBadge("five_favourites");}
+  save();renderCards();
+  document.getElementById("mFavBtn").textContent=state.favs.includes(id)?"💔 Unfavourite":"❤️ Favourite";
+}
+function addToTracker(item){
+  if(!item) return;
+  state.tracker[item.cat]=(state.tracker[item.cat]||0)+1;
+  save();renderTracker();
+  const total=Object.values(state.tracker).reduce((a,b)=>a+b,0);
+  if(total>=10) earnBadge("tracker_10");
+  closeModal();showXPToast(5);state.xp+=5;save();
+}
+
+// ════════════════════════════════════════════
+// TRACKER
+// ════════════════════════════════════════════
+const TRACKER_CATS=[
+  {key:"wet",icon:"💧",label:"Wet Waste",co2:0.2},
+  {key:"dry",icon:"📦",label:"Dry Waste",co2:0.15},
+  {key:"ewaste",icon:"⚡",label:"E-Waste",co2:1.5},
+  {key:"hazardous",icon:"☣️",label:"Hazardous",co2:1.0},
+];
+function renderTracker(){
+  const grid=document.getElementById("trackerGrid");
+  grid.innerHTML=TRACKER_CATS.map(c=>`
+    <div class="tracker-card">
+      <span class="tracker-emoji">${c.icon}</span>
+      <div class="tracker-label">${c.label}</div>
+      <span class="tracker-count">${state.tracker[c.key]||0}</span>
+      <div class="tracker-controls">
+        <button class="tc-btn" onclick="adjustTracker('${c.key}',-1)">−</button>
+        <button class="tc-btn" onclick="adjustTracker('${c.key}',1)">+</button>
+      </div>
+    </div>
+  `).join('');
+  const total=Object.values(state.tracker).reduce((a,b)=>a+b,0);
+  const co2=TRACKER_CATS.reduce((sum,c)=>sum+((state.tracker[c.key]||0)*c.co2),0).toFixed(2);
+  const maxCO2=total*1.5||1;
+  document.getElementById("trackerSummary").innerHTML=`
+    <div class="ts-item"><span class="ts-num" style="color:var(--accent)">${total}</span><span class="ts-lab">Items Correctly Disposed Today</span></div>
+    <div class="ts-item"><span class="ts-num" style="color:var(--gold)">${co2} kg</span><span class="ts-lab">CO₂ Equivalent Prevented</span><div class="co2-bar"><div class="co2-fill" style="width:${Math.min(100,(co2/maxCO2)*100)}%"></div></div></div>
+    <div class="ts-item"><span class="ts-num" style="color:var(--ew)">${state.tracker.ewaste||0}</span><span class="ts-lab">E-Waste Items Diverted from Landfill</span></div>
+    <div class="ts-item"><span class="ts-num" style="color:var(--wet)">${(state.tracker.wet||0)+(state.tracker.dry||0)}</span><span class="ts-lab">Biodegradable/Recyclable Items Sorted</span></div>
+  `;
+}
+function adjustTracker(cat,delta){
+  state.tracker[cat]=Math.max(0,(state.tracker[cat]||0)+delta);
+  save();renderTracker();
+  if(delta>0){state.xp+=3;save();document.getElementById("navPoints").textContent=state.xp;}
+}
+function resetTracker(){state.tracker={};save();renderTracker();}
+
+// ════════════════════════════════════════════
+// QUIZ
+// ════════════════════════════════════════════
+function renderQuiz(){
+  const box=document.getElementById("quizBox");
+  const s=state.quizState;
+  if(s.done){
+    const pct=Math.round((s.score/QUIZ_DATA.length)*100);
+    const icon=pct>=90?"🏆":pct>=70?"🌟":pct>=50?"👍":"📚";
+    const msg=pct>=90?"Incredible! You're a certified Eco Champion!":pct>=70?"Great job! Your eco-awareness is strong.":pct>=50?"Good effort — keep learning and you'll get there!":"Keep studying — every bit of knowledge helps the planet!";
+    const earnedBadges=[];
+    if(pct>=50) earnedBadges.push({emoji:"🎓",label:"Quiz Finisher"});
+    if(pct>=80) earnedBadges.push({emoji:"🌟",label:"Eco Expert"});
+    if(pct===100) earnedBadges.push({emoji:"🏆",label:"Perfect Score"});
+    earnBadge("quiz_complete");
+    if(s.score===QUIZ_DATA.length) earnBadge("perfect_quiz");
+    box.innerHTML=`<div class="quiz-end">
+      <div class="qe-icon">${icon}</div>
+      <span class="qe-score">${s.score}/${QUIZ_DATA.length}</span>
+      <div class="qe-max">${pct}% correct</div>
+      <p class="qe-msg">${msg}</p>
+      ${earnedBadges.length?`<div class="qe-badges">${earnedBadges.map(b=>`<span class="badge-pill" style="background:rgba(240,192,64,.1);border-color:rgba(240,192,64,.3);color:var(--gold)">${b.emoji} ${b.label}</span>`).join('')}</div>`:''}
+      <button class="btn-restart" onclick="restartQuiz()">🔄 Try Again</button>
+    </div>`;
+    return;
+  }
+  const q=QUIZ_DATA[s.idx];
+  const pct=Math.round((s.idx/QUIZ_DATA.length)*100);
+  box.innerHTML=`
+    <div class="quiz-top">
+      <span style="font-size:.8rem;color:var(--muted)">Q${s.idx+1}/${QUIZ_DATA.length}</span>
+      <div class="qprogress-bar"><div class="qprogress-fill" style="width:${pct}%"></div></div>
+      <span class="q-score-badge">⭐ ${s.score}</span>
+    </div>
+    <div class="quiz-card">
+      <div class="q-cat-badge">${q.cat}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-opts">
+        ${q.opts.map((o,i)=>`<button class="q-opt" id="qo${i}" onclick="answerQ(${i})">
+          <span class="q-opt-num">${String.fromCharCode(65+i)}</span>${o.substring(3)}
+        </button>`).join('')}
+      </div>
+      <div class="q-feedback" id="qfb"></div>
+      <div class="q-nav"><button class="btn-next" id="nextBtn" onclick="nextQ()">Next Question →</button></div>
+    </div>
+  `;
+}
+function answerQ(i){
+  const s=state.quizState;
+  if(s.answered) return;
+  s.answered=true;
+  const q=QUIZ_DATA[s.idx];
+  document.querySelectorAll(".q-opt").forEach(b=>b.disabled=true);
+  document.getElementById("qo"+q.ans).classList.add("correct");
+  const fb=document.getElementById("qfb");
+  if(i===q.ans){s.score++;fb.textContent="✅ Correct! "+q.explain;fb.className="q-feedback show ok";addXP(10);}
+  else{document.getElementById("qo"+i).classList.add("wrong");fb.textContent="❌ Incorrect. "+q.explain;fb.className="q-feedback show fail";}
+  document.getElementById("nextBtn").style.display="block";
+}
+function nextQ(){
+  const s=state.quizState;
+  s.idx++;s.answered=false;
+  if(s.idx>=QUIZ_DATA.length) s.done=true;
+  renderQuiz();
+}
+function restartQuiz(){state.quizState={idx:0,score:0,answered:false,done:false};renderQuiz();}
+
+// ════════════════════════════════════════════
+// TIPS
+// ════════════════════════════════════════════
+function renderTips(){
+  const todayIdx=new Date().getDate()%TIPS.length;
+  const tod=TIPS[todayIdx];
+  document.getElementById("tipHero").innerHTML=`
+    <div class="tip-hero-icon">${tod.icon}</div>
+    <div>
+      <div class="tip-hero-label">🌞 Tip of the Day · ${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'})}</div>
+      <p class="tip-hero-text">${tod.text}</p>
+      <button class="tip-hero-btn" onclick="nextTip()">↻ Show me another tip</button>
+    </div>
+  `;
+  document.getElementById("tipsGrid").innerHTML=TIPS.map((t,i)=>i===todayIdx?'':`
+    <div class="tip-card">
+      <div class="tip-card-top">
+        <div class="tip-card-icon">${t.icon}</div>
+        <div><div class="tip-card-title">${t.title}</div><div class="tip-card-cat">${t.cat}</div></div>
+      </div>
+      <p class="tip-card-text">${t.text}</p>
+      <button class="tip-like ${state.likedTips.includes(i)?'liked':''}" onclick="likeTip(${i},this)">${state.likedTips.includes(i)?'❤️ Liked':'🤍 Helpful'}</button>
+    </div>
+  `).join('');
+}
+let currentTipIdx=new Date().getDate()%TIPS.length;
+function nextTip(){
+  currentTipIdx=(currentTipIdx+1)%TIPS.length;
+  const t=TIPS[currentTipIdx];
+  document.getElementById("tipHero").querySelector(".tip-hero-text").textContent=t.text;
+  document.getElementById("tipHero").querySelector(".tip-hero-icon").textContent=t.icon;
+}
+function likeTip(i,btn){
+  if(!state.likedTips.includes(i)){state.likedTips.push(i);earnBadge("tip_liked");addXP(5);}
+  else state.likedTips=state.likedTips.filter(x=>x!==i);
+  btn.className="tip-like"+(state.likedTips.includes(i)?" liked":"");
+  save();
+}
+
+// ════════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════════
+function renderStats(){
+  document.getElementById("statGrid").innerHTML=STATS_DATA.map(s=>`<div class="big-stat"><span class="big-stat-num">${s.num}</span><div class="big-stat-desc">${s.desc}</div><div class="big-stat-src">Source: ${s.src}</div></div>`).join('');
+  document.getElementById("problemList").innerHTML=PROBLEMS.map(p=>`<li>${p}</li>`).join('');
+  document.getElementById("benefitList").innerHTML=BENEFITS.map(b=>`<li>${b}</li>`).join('');
+  document.getElementById("sourcesList").innerHTML=SOURCES.map(s=>`<li>${s}</li>`).join('');
+}
+
+// ════════════════════════════════════════════
+// COMPARE
+// ════════════════════════════════════════════
+function initCompare(){
+  const html=WASTE.map(i=>`<option value="${i.id}">${i.icon} ${i.name}</option>`).join('');
+  document.getElementById("compA").innerHTML=html;
+  document.getElementById("compB").innerHTML=html;
+  document.getElementById("compB").value="9";
+  renderCompare();
+}
+function renderCompare(){
+  const a=WASTE.find(i=>i.id===parseInt(document.getElementById("compA").value));
+  const b=WASTE.find(i=>i.id===parseInt(document.getElementById("compB").value));
+  if(!a||!b) return;
+  earnBadge("compared");
+  const catColor=i=>i.cat==="wet"?"var(--wet)":i.cat==="dry"?"var(--dry)":i.cat==="ewaste"?"var(--ew)":"var(--haz)";
+  const panel=i=>`<div class="comp-panel">
+    <h4 style="color:${catColor(i)}">${i.icon} ${i.name}</h4>
+    <div class="comp-row"><strong>Category</strong>${i.catLabel}</div>
+    <div class="comp-row"><strong>Correct Bin</strong>${i.bin}</div>
+    <div class="comp-row"><strong>Recyclable</strong>${i.recyclable?"✅ Yes":"❌ No"}</div>
+    <div class="comp-row"><strong>Disposal</strong>${i.disposal}</div>
+    <div class="comp-row"><strong>Eco Tip</strong>${i.tip}</div>
+    ${i.warning?`<div class="comp-row"><strong>Warning</strong>⚠️ ${i.warning}</div>`:''}
+  </div>`;
+  document.getElementById("compareResult").innerHTML=panel(a)+panel(b);
+}
+
+// ════════════════════════════════════════════
+// ACHIEVEMENTS
+// ════════════════════════════════════════════
+const CHALLENGES=[
+  {icon:"🔍",title:"Search 3 Items",desc:"Use the search bar to find 3 different waste items today.",progress:()=>Math.min(3,state.favs.length+1),max:3,xp:15},
+  {icon:"📊",title:"Log 5 Items in Tracker",desc:"Correctly dispose and log 5 waste items using the tracker.",progress:()=>Math.min(5,Object.values(state.tracker).reduce((a,b)=>a+b,0)),max:5,xp:20},
+  {icon:"🧠",title:"Complete the Quiz",desc:"Finish all 15 questions of the awareness quiz.",progress:()=>state.quizState.idx,max:15,xp:50},
+  {icon:"❤️",title:"Save 3 Favourites",desc:"Mark 3 waste items as your favourites for quick reference.",progress:()=>Math.min(3,state.favs.length),max:3,xp:15},
+  {icon:"💡",title:"Like 3 Tips",desc:"Click 'Helpful' on 3 different eco tips.",progress:()=>Math.min(3,state.likedTips.length),max:3,xp:15},
+  {icon:"🗂️",title:"Explore All Categories",desc:"Browse Wet, Dry, E-Waste, and Hazardous categories.",progress:()=>Math.min(4,state.catsExplored.filter(c=>["wet","dry","ewaste","hazardous"].includes(c)).length),max:4,xp:20},
+];
+function renderXP(){
+  const level=Math.floor(state.xp/100)+1;
+  const xpInLevel=state.xp%100;
+  const b=document.getElementById("xpBar");
+  if(!b) return;
+  b.innerHTML=`
+    <div class="xp-avatar">🌿</div>
+    <div style="flex:1">
+      <div class="xp-level">Level ${level} <span style="font-size:.8rem;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;font-weight:400">Eco ${level<3?'Learner':level<6?'Activist':'Champion'}</span></div>
+      <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${xpInLevel}%"></div></div>
+      <div class="xp-text">${state.xp} XP total · ${xpInLevel}/100 to next level</div>
+    </div>
+    <div style="text-align:right"><div style="font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--gold)">${state.badges.length}</div><div style="font-size:.72rem;color:var(--muted)">badges earned</div></div>
+  `;
+}
+function renderBadges(){
+  const b=document.getElementById("badgesGrid");
+  if(!b) return;
+  b.innerHTML=BADGES_DEF.map(bd=>`<div class="badge-item ${state.badges.includes(bd.id)?'earned':''}">
+    <div class="badge-icon">${bd.icon}</div>
+    <div><div class="badge-info-name">${bd.name}</div><div class="badge-info-desc">${bd.desc} ${state.badges.includes(bd.id)?`· +${bd.xp} XP`:''}</div></div>
+  </div>`).join('');
+}
+function renderChallenges(){
+  const g=document.getElementById("challengeGrid");
+  if(!g) return;
+  g.innerHTML=CHALLENGES.map(c=>{
+    const prog=c.progress();const pct=Math.round((prog/c.max)*100);
+    return`<div class="challenge-card">
+      <div class="chall-title">${c.icon} ${c.title} <span style="margin-left:auto;font-size:.72rem;color:var(--gold)">+${c.xp} XP</span></div>
+      <div class="chall-desc">${c.desc}</div>
+      <div class="chall-bar"><div class="chall-fill" style="width:${pct}%"></div></div>
+      <div class="chall-meta"><span>${prog}/${c.max}</span><span>${pct===100?'✅ Complete!':pct+'%'}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════
+// GLOSSARY
+// ════════════════════════════════════════════
+function renderGlossary(){
+  document.getElementById("glossaryList").innerHTML=GLOSSARY.map(g=>`<div class="gloss-card"><div class="gloss-term">${g.term}</div><div class="gloss-def">${g.def}</div></div>`).join('');
+  earnBadge("glossary_viewed");
+}
+
+// ════════════════════════════════════════════
+// NAV / SECTION
+// ════════════════════════════════════════════
+function gotoSection(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+  document.querySelectorAll(".nav-tab").forEach(b=>b.classList.remove("active"));
+  const tabs=["search","tracker","quiz","tips","stats","compare","achievements","glossary"];
+  const idx=tabs.indexOf(id);
+  if(idx>=0) document.querySelectorAll(".nav-tab")[idx].classList.add("active");
+  if(id==="quiz") renderQuiz();
+  if(id==="tips") renderTips();
+  if(id==="compare") initCompare();
+  if(id==="glossary") renderGlossary();
+  if(id==="achievements"){renderXP();renderBadges();renderChallenges();}
+}
+
+// ════════════════════════════════════════════
+// THEME
+// ════════════════════════════════════════════
+function toggleTheme(){
+  state.theme=state.theme==="dark"?"light":"dark";
+  document.body.classList.toggle("light",state.theme==="light");
+  save();
+}
+
+// ════════════════════════════════════════════
+// PARTICLES
+// ════════════════════════════════════════════
+function initParticles(){
+  const container=document.getElementById("particles");
+  const colors=["rgba(46,204,113,","rgba(39,174,96,","rgba(23,86,184,"];
+  for(let i=0;i<18;i++){
+    const p=document.createElement("div");p.className="particle";
+    const size=Math.random()*4+2;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${color}${Math.random()*.4+.1});animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*20}s`;
+    container.appendChild(p);
+  }
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+document.addEventListener("DOMContentLoaded",()=>{
+  if(state.theme==="light") document.body.classList.add("light");
+  initParticles();
+  renderCards();
+  renderTracker();
+  renderStats();
+  renderQuiz();
+  renderTips();
+  renderXP();
+  initCompare();
+  document.getElementById("navPoints").textContent=state.xp;
+  // Intersection observer for nav highlighting
+  const sections=["search","tracker","quiz","tips","stats","compare","achievements","glossary"];
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const idx=sections.indexOf(e.target.id);
+        document.querySelectorAll(".nav-tab").forEach((b,i)=>b.classList.toggle("active",i===idx));
+      }
+    });
+  },{rootMargin:"-50% 0px -50% 0px"});
+  sections.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
+});
+</script>
+</body>
+</html>
